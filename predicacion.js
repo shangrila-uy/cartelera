@@ -131,7 +131,7 @@ function findTerritoryDrive(data, territory) {
 	var territories = [];
 	for (var i in data.values) {
 		if (data.values[i][0] == territory) {
-			return data.values[i][6];
+			return data.values[i][1];
 		}
 	}
 	return '';
