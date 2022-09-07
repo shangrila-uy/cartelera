@@ -137,10 +137,10 @@ function findTerritoryDrive(data, territory) {
 	return '';
 }
 
-function processData(groupsRequest, placesRequest, territoriesRequest) {
+function processData(groupsRequest, homeRequest, phoneRequest) {
 	var groupsData = JSON.parse(groupsRequest.responseText);
-	var placesData = JSON.parse(placesRequest.responseText);
-	var territoriesData = JSON.parse(territoriesRequest.responseText);
+	var placesData = JSON.parse(homeRequest.responseText);
+	var territoriesData = JSON.parse(phoneRequest.responseText);
 	var formattedGroupsData = {};
 	var template = $(".event");
 	var phoneLink = "https://wa.me/598";
@@ -148,7 +148,7 @@ function processData(groupsRequest, placesRequest, territoriesRequest) {
 
 	for (var i = 1; i < groupsData.values.length; i++) {
 		var entry = groupsData.values[i];
-		var day = entry[0];
+		var day = entry[9];
 		var splittedDay = day.split("/");
 		var date = new Date(splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
 		if (date >= today) {
@@ -156,14 +156,15 @@ function processData(groupsRequest, placesRequest, territoriesRequest) {
 				formattedGroupsData[date] = [];
 			}
 			formattedGroupsData[date].push({
-				"hour": entry[2],
+				"hour": entry[1],
 				"conductor": entry[4],
-				"auxiliar": entry[5],
-				"conductorPhone": entry[7] === undefined ? "" : entry[7].slice(1).replace(/ /g, ""),
-				"auxiliarPhone": entry[8] === undefined ? "" : entry[8].slice(1).replace(/ /g, ""),
-				"place": entry[3],
-				"notes": entry[6],
-				"assignments": findAssignment(entry[9]),
+				// "auxiliar": entry[5],
+				"conductorPhone": "", // entry[7] === undefined ? "" : entry[7].slice(1).replace(/ /g, ""),
+				// "auxiliarPhone": entry[8] === undefined ? "" : entry[8].slice(1).replace(/ /g, ""),
+				"place": entry[2],
+				"notes": entry[5],
+				"assignments": findAssignment(entry[11]),
+				"placeLink": entry[12]
 			});
 		}
 	}
@@ -187,7 +188,7 @@ function processData(groupsRequest, placesRequest, territoriesRequest) {
 			}
 			
 			fill(row, ".time", time.hour);
-			fill(row, ".place", time.place, findPlace(placesData, time.place));
+			fill(row, ".place", time.place, time.placeLink /*findPlace(placesData, time.place)*/);
 			fill(row, ".cond", time.conductor, conductorPhone);
 			fill(row, ".aux", time.auxiliar, auxiliarPhone);
 			fill(row, ".notes", time.notes);
@@ -201,27 +202,27 @@ function processData(groupsRequest, placesRequest, territoriesRequest) {
 }
 
 function groups() {
-	var groups = 'https://sheets.googleapis.com/v4/spreadsheets/1uTjpzxOZ5GNIKorAhHVzerRB4zbDhBvYIVtXF9T17-s/values/json?key=AIzaSyDeLzgtsrTNxNrXFe7H-RxBwg8CY30X4Lk';
-	var places = 'https://sheets.googleapis.com/v4/spreadsheets/1uTjpzxOZ5GNIKorAhHVzerRB4zbDhBvYIVtXF9T17-s/values/lugares_json?key=AIzaSyDeLzgtsrTNxNrXFe7H-RxBwg8CY30X4Lk';
-	var territories = 'https://sheets.googleapis.com/v4/spreadsheets/1uTjpzxOZ5GNIKorAhHVzerRB4zbDhBvYIVtXF9T17-s/values/territorios?key=AIzaSyDeLzgtsrTNxNrXFe7H-RxBwg8CY30X4Lk';
+	var groups = 'https://sheets.googleapis.com/v4/spreadsheets/10jxjr-xV0UWNV1XjNIRYrGCKsw8tXxRgjb3BzmHpOp4/values/programa?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+	var homeTerritories = 'https://sheets.googleapis.com/v4/spreadsheets/10jxjr-xV0UWNV1XjNIRYrGCKsw8tXxRgjb3BzmHpOp4/values/territorios_casas?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+	var phoneTerritories = 'https://sheets.googleapis.com/v4/spreadsheets/10jxjr-xV0UWNV1XjNIRYrGCKsw8tXxRgjb3BzmHpOp4/values/territorios_telefonos?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
 
 	var groupsRequest = new XMLHttpRequest();
 	groupsRequest.open('GET', groups);
 	groupsRequest.onload = function() {
 
-		var placesRequest = new XMLHttpRequest();
-		placesRequest.open('GET', places);
-		placesRequest.onload = function() {
+		var homeRequest = new XMLHttpRequest();
+		homeRequest.open('GET', homeTerritories);
+		homeRequest.onload = function() {
 
-			var territoriesRequest = new XMLHttpRequest();
-			territoriesRequest.open('GET', territories);
-			territoriesRequest.onload = function() {
-				processData(groupsRequest, placesRequest, territoriesRequest);
+			var phoneRequest = new XMLHttpRequest();
+			phoneRequest.open('GET', phoneTerritories);
+			phoneRequest.onload = function() {
+				processData(groupsRequest, homeRequest, phoneRequest);
 			}
-			territoriesRequest.send();
+			phoneRequest.send();
 				
 		}
-		placesRequest.send();
+		homeRequest.send();
 		
 	}
 	groupsRequest.send();
