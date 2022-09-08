@@ -1,11 +1,11 @@
 var MAP_TYPE = {
 	ORIGINAL: 1,
 	FOCUSED: 2,
-	HEAT_MAP: 3,
+	// HEAT_MAP: 3,
 	// AVERAGE: 4,
 	// PHONE: 5,
 	// LETTER: 6,
-	CAMPAIGN: 7
+	// CAMPAIGN: 7
 };
 
 var MAP_EXTRAS = {
@@ -187,7 +187,7 @@ function addTerritoryLabels(geoXmlDoc, map, options) {
 			addTerritoryLabel(placemark, map);
 			var territory = options.territories[placemark.name];
 			if (territory !== undefined) {
-				if (territory.date != "") {
+				if (territory.date !== undefined && territory.date != "") {
 					if (options.minDate.getTime() > territory.date.getTime()) {
 						options.minDate = territory.date;
 					}
@@ -243,7 +243,8 @@ function addTerritoryInfoWindow(infoWindow, placemark, territories, map) {
 	// description = addContent(description, "Completado", territory.isComplete ? "Sí" : "No");
 	description = addContent(description, "Manzanas hechas", territory.blocks);
 	// description = addContent(description, "Notas", territory.notes);
-	description += "<br/><a target='_blank' href='" + territory.link + "'>Teléfonos</a>";
+	description += "<br/><a target='_blank' href='" + territory.homesLink + "'>Casas</a>";
+	description += "<br/><a target='_blank' href='" + territory.phonesLink + "'>Teléfonos</a>";
 	addInfoWindow(map, placemark.polygon, infoWindow, placemark.polygon.bounds.getCenter(), title, description);
 }
 
@@ -341,13 +342,10 @@ function fetchTerritoriesKmz(map, infoWindow, options, mapType) {
 }
 
 function createPlaceContent(placemark) {
-	var descriptionStr = "";
-	var descriptionItems = placemark.description.split("<br>");
-	$.each(descriptionItems, function(index, descriptionItem) {
-		var descriptionArray = descriptionItem.split(": ");
-		descriptionStr = addContent(descriptionStr, descriptionArray[0], descriptionArray[1]);
-	});
-	return descriptionStr;
+	var coordinates = placemark.Point.coordinates[0];
+	var content = (placemark.description != null) ? placemark.description + "<br/>" : "";
+	content += "<a target='_blank' href='https://www.google.com/maps/dir//" + coordinates.lat + "," + coordinates.lng + "'>C�mo ir</a>";
+	return content;
 }
 
 function createMarker(map, options, placemark, doc, infoWindow, contentProcessor) {
@@ -419,7 +417,7 @@ function parseDate(dateString) {
 }
 
 function makeSheetCall(sheetId) {
-	var url = "https://sheets.googleapis.com/v4/spreadsheets/1uTjpzxOZ5GNIKorAhHVzerRB4zbDhBvYIVtXF9T17-s/values/" + sheetId + "?key=AIzaSyDeLzgtsrTNxNrXFe7H-RxBwg8CY30X4Lk";
+	var url = "https://sheets.googleapis.com/v4/spreadsheets/10jxjr-xV0UWNV1XjNIRYrGCKsw8tXxRgjb3BzmHpOp4/values/" + sheetId + "?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s";
 	return $.ajax({ 
 	  dataType: "json",
 	  url: url,
@@ -442,12 +440,13 @@ function fetchSheetData(map, options, infoWindow) {
 			$.each(territoriesResponse.values, function(i, val) {
 				options.territories[val[0]] = {
 					name: val[0],
-					date: parseDate(val[2]),
-					dateStr: val[2],
-					isComplete: val[3] == "TRUE",
-					blocks: val[4],
-					notes: val[5],
-					link: val[6],
+					// date: parseDate(val[1]),
+					dateStr: "", // val[1],
+					// isComplete: val[2] == "TRUE",
+					blocks: "", // val[3],
+					// notes: val[4],
+					homesLink: val[5],
+					phonesLink: val[7],
 					colors: {}
 				};
 			});

@@ -1,219 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
-    <name>Lugares</name>
-    <Style id="icon-1603-A52714-labelson">
+    <name>Lugares de encuentro</name>
+    <Style id="icon-1603-000000-normal">
       <IconStyle>
+        <color>ff000000</color>
         <scale>1</scale>
         <Icon>
           <href>images/icon-1.png</href>
         </Icon>
       </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
     </Style>
-    <Style id="icon-1899-A52714-labelson">
+    <Style id="icon-1603-000000-highlight">
       <IconStyle>
+        <color>ff000000</color>
         <scale>1</scale>
         <Icon>
-          <href>images/icon-2.png</href>
+          <href>images/icon-1.png</href>
         </Icon>
-        <hotSpot x="32" xunits="pixels" y="64" yunits="insetPixels"/>
       </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
     </Style>
+    <StyleMap id="icon-1603-000000">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1603-000000-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1603-000000-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1603-000000-nodesc-normal">
+      <IconStyle>
+        <color>ff000000</color>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-1.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <Style id="icon-1603-000000-nodesc-highlight">
+      <IconStyle>
+        <color>ff000000</color>
+        <scale>1</scale>
+        <Icon>
+          <href>images/icon-1.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+      <BalloonStyle>
+        <text><![CDATA[<h3>$[name]</h3>]]></text>
+      </BalloonStyle>
+    </Style>
+    <StyleMap id="icon-1603-000000-nodesc">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1603-000000-nodesc-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1603-000000-nodesc-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
     <Placemark>
-      <name>Familia De Los Santos</name>
-      <description><![CDATA[Hogar: true<br>Dirección: Calle 5 y calle 3, Zona 3, Tira 35, Apto 5597, Av. Bolivia 255]]></description>
-      <styleUrl>#icon-1603-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value>1</value>
-        </Data>
-        <Data name="Dirección">
-          <value>Calle 5 y calle 3, Zona 3, Tira 35, Apto 5597, Av. Bolivia 255</value>
-        </Data>
-      </ExtendedData>
+      <name>Familia Berdiñas</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0938445,-34.8750205,0
+          -56.0035385,-34.8376277,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Familia Núñez</name>
-      <description><![CDATA[Hogar: true<br>Dirección: Av. Bolivia 2551, Block Q, Apto. 112]]></description>
-      <styleUrl>#icon-1603-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value>1</value>
-        </Data>
-        <Data name="Dirección">
-          <value>Av. Bolivia 2551, Block Q, Apto. 112</value>
-        </Data>
-      </ExtendedData>
+      <name>Familia Brandi</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0948557,-34.8765322,0
+          -55.9963833,-34.8545752,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Gladys Rodríguez</name>
-      <description><![CDATA[Hogar: true<br>Dirección: Padua 5881]]></description>
-      <styleUrl>#icon-1603-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value>1</value>
-        </Data>
-        <Data name="Dirección">
-          <value>Padua 5881</value>
-        </Data>
-      </ExtendedData>
+      <name>Familia Kuzman</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0826355,-34.8766126,0
+          -55.9963905,-34.8458018,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Familia Vázquez</name>
-      <description><![CDATA[Hogar: true<br>Dirección: Uspallata 1477]]></description>
-      <styleUrl>#icon-1603-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value>1</value>
-        </Data>
-        <Data name="Dirección">
-          <value>Uspallata 1477</value>
-        </Data>
-      </ExtendedData>
+      <name>Familia Machado-Rey</name>
+      <description>Amanecer M60 S1, casi Arco Iris</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
       <Point>
         <coordinates>
-          -56.074505,-34.8926901,0
+          -56.0057252,-34.859647,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Salón del Reino</name>
-      <description><![CDATA[Hogar: true<br>Dirección: Av. Dr. Juan B. Alberdi 6076]]></description>
-      <styleUrl>#icon-1603-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value>1</value>
-        </Data>
-        <Data name="Dirección">
-          <value>Av. Dr. Juan B. Alberdi 6076</value>
-        </Data>
-      </ExtendedData>
+      <name>Familia Mestre</name>
+      <description>Av. García Arocena MB S5, esquina Av. Luis Batlle Berres</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
       <Point>
         <coordinates>
-          -56.0775416,-34.8841518,0
+          -55.9795615,-34.8324096,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Av. Italia y Z. Felde</name>
-      <description><![CDATA[Hogar: <br>Dirección: ]]></description>
-      <styleUrl>#icon-1899-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value/>
-        </Data>
-        <Data name="Dirección">
-          <value/>
-        </Data>
-      </ExtendedData>
+      <name>Familia Mollica</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0957735,-34.8852161,0
+          -56.0051246,-34.8557875,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Dr. A. Gallinal y Orinoco</name>
-      <description><![CDATA[Hogar: <br>Dirección: ]]></description>
-      <styleUrl>#icon-1899-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value/>
-        </Data>
-        <Data name="Dirección">
-          <value/>
-        </Data>
-      </ExtendedData>
+      <name>Familia Morgade</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0919439,-34.8945578,0
+          -55.9855686859959,-34.8232915608159,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Familia Antón</name>
-      <description><![CDATA[Hogar: true<br>Dirección: Vicente Martínez Cuitiño 5352 bis]]></description>
-      <styleUrl>#icon-1603-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value>1</value>
-        </Data>
-        <Data name="Dirección">
-          <value>Vicente Martínez Cuitiño 5352 bis</value>
-        </Data>
-      </ExtendedData>
+      <name>Familia Hortiguera</name>
+      <description>Andrés Carlevero (Calle B) M68 S10</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
       <Point>
         <coordinates>
-          -56.0990192,-34.8688003,0
+          -55.9999921,-34.8407831,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Av. Italia y Av. Bolivia</name>
-      <description><![CDATA[Hogar: <br>Dirección: ]]></description>
-      <styleUrl>#icon-1899-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value/>
-        </Data>
-        <Data name="Dirección">
-          <value/>
-        </Data>
-      </ExtendedData>
+      <name>Familia Piedrabuena</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0836782,-34.8825232,0
+          -55.9725952148438,-34.838264465332,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Av. Rivera y Grito de Gloria</name>
-      <description><![CDATA[Hogar: <br>Dirección: ]]></description>
-      <styleUrl>#icon-1899-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value/>
-        </Data>
-        <Data name="Dirección">
-          <value/>
-        </Data>
-      </ExtendedData>
+      <name>Familia Puche</name>
+      <description>Atenas M62 S21B</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
       <Point>
         <coordinates>
-          -56.0870295,-34.8906456,0
+          -55.9797764,-34.8488211,0
         </coordinates>
       </Point>
     </Placemark>
     <Placemark>
-      <name>Coimbra y Av. Gral. Paz</name>
-      <description><![CDATA[Hogar: <br>Dirección: ]]></description>
-      <styleUrl>#icon-1899-A52714-labelson</styleUrl>
-      <ExtendedData>
-        <Data name="Hogar">
-          <value/>
-        </Data>
-        <Data name="Dirección">
-          <value/>
-        </Data>
-      </ExtendedData>
+      <name>Familia Saldaña</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
       <Point>
         <coordinates>
-          -56.0805842,-34.8959816,0
+          -55.9941438,-34.8538138,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Familia Scrivanelli</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9960205,-34.846512,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Familia Yenyerestei</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9920672,-34.8279388,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Magalí Alves</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9827439,-34.8444091,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Selene Pereyra</name>
+      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9882483,-34.8525727,0
         </coordinates>
       </Point>
     </Placemark>

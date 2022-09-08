@@ -68,8 +68,8 @@ function fillAssignments(item, assignments, territoriesData) {
 			var drive = findTerritoryDrive(territoriesData, value);
 			var link = $("<a>")
 				.attr("target", "_blank")
-				// .attr("href", "territorios/mapa.html?territorio=" + value)
-				.attr("href", drive)
+				.attr("href", "territorios/mapa.html?territorio=" + value)
+				// .attr("href", drive)
 				.text(value)
 				.appendTo(element);
 			// hasDoNotCalls = addDoNotCalls(territoriesData, value, link, doNotCallField);
