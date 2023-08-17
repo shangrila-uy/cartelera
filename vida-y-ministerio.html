@@ -1,19 +1,108 @@
 <!DOCTYPE html>
-<html>
-   <head>
-      <title>Reunión Vida y Ministerio</title>
-      <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0"/>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-      <style>
-        iframe {
-            display: block;       /* iframes are inline by default */
-            border: none;         /* Reset default border */
-            height: 100vh;        /* Viewport-relative units */
-            width: 100vw;
-        }
-      </style>
-   </head>
-   <body style="margin: 0px;">
-      <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRmOX8-R_atSHpAXuTouDR0TvfI_N4bMsdrYvVnFWeFli0rWpfR5PpwmakytmuxokcCRhpFjn6HWm3w/pubhtml?gid=334102173&single=true" />
-   </body>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="vida-y-ministerio.css" />
+	<link rel="stylesheet" href="spinner.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="vida-y-ministerio.js"></script>
+    <title>Reuniones de Congregación</title>
+</head>
+
+<body onload="meetings()">
+
+	<div class="lds-dual-ring"></div>
+
+    <div id="table" class="table">
+        <div class="event" style="display: none;">
+            <div class="day">
+                <div class="date"><span class="value">MAR</span></div>
+                <div class="number"><span class="value">22</span></div>
+                <div class="month"><span class="value">AGO</span></div>
+            </div>
+            <div class="rows">
+                <div class="row">
+                    <div class="assignee chairman">
+                        <span class="label">Presidencia</span>
+                        <span class="value">-</span>
+                    </div>
+                    
+                    <div class="section treasures">
+                    	<h2>TESOROS DE LA BIBLIA</h2>
+                    </div>
+                    
+                    <div class="assignee treasures">
+                        <span class="label">Discurso</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee pearls">
+                        <span class="label">Perlas</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee bible-reading">
+                        <span class="label">Lectura<br>de la Biblia</span>
+                        <span class="value">-</span>
+                    </div>
+                    
+                    <div class="section teachers">
+                    	<h2>SEAMOS MEJORES MAESTROS</h2>
+                    </div>
+                                        
+                    <div class="assignee initial-call-1">
+                        <span class="label">Primera conversación</span>
+                        <span class="value">-<br>-</span>
+                    </div>
+                    <div class="assignee initial-call-2">
+                        <span class="label">Primera conversación</span>
+                        <span class="value">-<br>-</span>
+                    </div>
+                    <div class="assignee return-visit-1">
+                        <span class="label">Revisita</span>
+                        <span class="value">-<br>-</span>
+                    </div>
+                    <div class="assignee return-visit-2">
+                        <span class="label">Revisita</span>
+                        <span class="value">-<br>-</span>
+                    </div>
+                    <div class="assignee bible-study">
+                        <span class="label">Curso Biblico</span>
+                        <span class="value">-<br>-</span>
+                    </div>
+                    <div class="assignee student-talk">
+                        <span class="label">Discurso</span>
+                        <span class="value">-</span>
+                    </div>
+                    
+                    <div class="section christian">
+                    	<h2>NUESTRA VIDA CRISTIANA</h2>
+                    </div>
+                    
+                    <div class="assignee living-part-1">
+                        <span class="label">Primera asignación</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee living-part-2">
+                        <span class="label">Segunda asignación</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee congregation-study-conductor">
+                        <span class="label">Estudio bíblico</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee congregation-study-reader">
+                        <span class="label">Lectura del estudio</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee final-prayer">
+                        <span class="label">Oración</span>
+                        <span class="value">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
 </html>
