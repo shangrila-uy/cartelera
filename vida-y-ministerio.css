@@ -15,40 +15,35 @@ body {}
 .event {
     width: 90%;
     border-radius: 5px;
-    margin: 20px auto;
-    display: flex;
+    margin: 30px auto;
     flex-direction: row;
 }
 
 .event .day {
-    width: 10%;
     color: #424243;
-    font-weight: 900;
-    display: flex;
-    flex-direction: column;
-	align-items: center;
-    padding: 10px;
-    border-radius: 0 5px 5px 0;
 }
 
 .event .day .number {
-    font-size: 25pt;
+    font-size: 20pt;
+    display: inline-flex;
+}
+
+.event .day .date,
+.event .day .month {
+    font-size: 16pt;
+    display: inline-flex;
 }
 
 .event .rows {
-    width: 81%;
-    margin-top: 10px;
+    margin-top: 4px;
 }
 
 .event .row {
-	min-width: 320px;
-    display: flex;
-    flex-direction: column;
-    color: #424242;
-    padding: 15px 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 2px 2px 10px #CCCCCC;
+	display: flex;
+	flex-direction: column;
+	color: #424242;
+	margin-bottom: 10px;
+	border-radius: 10px;
 }
 
 .event .row.highlight_1 {
@@ -64,37 +59,41 @@ body {}
 }
 
 .event .label {
-    font-size: 11px;
-    width: 80px;
-    height: 26px;
-    display: inline-flex;
-    text-align: right;
-    vertical-align: middle;
+    font-size: 14px;
+    display: block;
     margin-right: 8px;
-    margin-left: 30px;
-    align-items: center;
-    justify-content: right;
+    font-weight: bold;
 }
 
 .event .value {
-    display: inline-block;
-    width: 60%;
-    vertical-align: middle;
+    display: block;
 }
 
 .event .assignee {
-    font-size: 16px;
-    margin-bottom: 6px;
+    font-size: 14px;
+    background: #EEE;
+    padding: 8px 12px;
+    margin: 2px 0px;
+}
+
+.event .assignee:first-child {
+	border-radius: 10px 10px 0px 0px;
+}
+
+.event .assignee:last-child {
+	border-radius: 0px 0px 10px 10px;
 }
 
 .event .section {
-    margin: 6px 6px;
+    margin: 2px 0px;
     display: flex;
     align-items: center;
+    color: #fff;
+    padding: 4px 8px;
 }
 
 .event .section h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
@@ -104,41 +103,37 @@ body {}
 .event .section::before {
     font-family: jw-icons-external;
     display: inline-flex;
-    color: #fff;
     font-size: 32px;
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
     height: 40px;
     width: 40px;
-    margin-right: 12px;
+    margin-right: 8px;
     font-weight: normal;
 }
 
 .event .section.treasures {
-    color: #626262;
+    background: #626262;
 }
 
 .event .section.treasures::before {
-    background-color: #626262;
     content: "\e65c";
 }
 
 .event .section.teachers {
-    color: #9d5d07;
+    background: #9d5d07;
 }
 
 .event .section.teachers::before {
-    background-color: #9d5d07;
     content: "\e6ec";
 }
 
 .event .section.christian {
-    color: #942926;
+    background: #942926;
 }
 
 .event .section.christian::before {
-    background-color: #942926;
     content: "\e6bb";
 }
 

@@ -65,9 +65,9 @@ function processData(meetingsRequest) {
 	for (var day in formattedData) {
 		var date = new Date(day);
 		var item = template.clone();
-		fill(item, ".date", date.toLocaleString('es', {  weekday: 'short' }).toUpperCase());
+		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }));
 		fill(item, ".number", date.getDate());
-		fill(item, ".month", date.toLocaleString('es', {  month: 'short' }).toUpperCase().replace("SEPT", "SET"));
+		fill(item, ".month", "de " + date.toLocaleString('es', {  month: 'long' }).replace("septiembre", "setiembre"));
 		var dates = formattedData[day];
 		var templateRow = item.find(".row").clone();
 		item.find(".row").remove();
