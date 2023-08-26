@@ -46,20 +46,8 @@ body {}
 	border-radius: 10px;
 }
 
-.event .row.highlight_1 {
-    background: #92E8BF;
-}
-
-.event .row.highlight_2 {
-    background: #E8E0A9;
-}
-
-.event .row.highlight_3 {
-    background: #D8D2FC;
-}
-
 .event .label {
-    font-size: 14px;
+    font-size: 16px;
     display: block;
     margin-right: 8px;
     font-weight: bold;
@@ -70,18 +58,30 @@ body {}
 }
 
 .event .assignee {
-    font-size: 14px;
+    font-size: 16px;
 	line-height: 20px;
     background: #EEE;
     padding: 8px 12px;
     margin: 2px 0px;
 }
 
-.event .assignee:first-child {
+.event .assignee.treasures {
+    background: #D4D4D4;
+}
+
+.event .assignee.teachers {
+    background: #EBD6BC;
+}
+
+.event .assignee.christian {
+    background: #E0D1D1;
+}
+
+.event .assignee.chairman-A {
 	border-radius: 10px 10px 0px 0px;
 }
 
-.event .assignee:last-child {
+.event .assignee.final-prayer {
 	border-radius: 0px 0px 10px 10px;
 }
 
@@ -136,6 +136,12 @@ body {}
 
 .event .section.christian::before {
     content: "\e6bb";
+}
+
+.event .special-event {
+	background: #189443;
+	padding: 14px 16px;
+    border-radius: 10px;
 }
 
 .arrow-right {

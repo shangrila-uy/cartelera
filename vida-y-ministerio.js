@@ -46,11 +46,17 @@ function processData(meetingsRequest) {
 			if (formattedData[date] === undefined) {
 				formattedData[date] = [];
 			}
+			if (isNaN(entry["E".ord()])) {
+				formattedData[date].push({
+					"special-event": entry["E".ord()]
+				});
+				continue;
+			}
 			formattedData[date].push(
 				{
 					"chairman-A": entry["F".ord()],
 					"chairman-B": entry["G".ord()],
-					"treasures": entry["I".ord()],
+					"treasures-talk": entry["I".ord()],
 					"pearls": entry["K".ord()],
 					"bible-reading-A": entry["M".ord()],
 					"bible-reading-B": entry["N".ord()],
@@ -94,7 +100,15 @@ function processData(meetingsRequest) {
 			var date = dates[i];
 			
 			for (const assignment in date) {
+				if (assignment == "special-event") {
+					fill(row, ".section." + assignment, date[assignment]);
+					row.find(".section,.assignee").hide();
+					row.find(".section.special-event").show();
+					item.find(".rows").append(row);
+					continue;
+				}
 				fill(row, ".assignee." + assignment, date[assignment]);
+				row.find(".section.special-event").hide();
 				item.find(".rows").append(row);
 			}
 		}
