@@ -1,3 +1,13 @@
+String.prototype.ord = function() {
+	var index = this.charCodeAt(0) - 65;
+
+	if (this.length === 1) {
+		return index;
+	}
+
+	return (index + 1) * 26 + this.charCodeAt(1) - 65;
+};
+
 function fill(item, selector, content) {
 	var field = item.find(selector);
 	
@@ -29,32 +39,39 @@ function processData(meetingsRequest) {
 
 	for (var i = 55; i < meetingsData.values.length; i++) {
 		var entry = meetingsData.values[i];
-		var day = entry[3];
+		var day = entry["D".ord()];
 		var splittedDay = day.split(" ")[1].split("/");
 		var date = new Date(2023, splittedDay[1] - 1, splittedDay[0]);
-		if (date >= today && entry[5] != '') {
+		if (date >= today && entry["E".ord()] != '') {
 			if (formattedData[date] === undefined) {
 				formattedData[date] = [];
 			}
 			formattedData[date].push(
 				{
-					"chairman": entry[5],
-					"treasures": entry[7],
-					"pearls": entry[9],
-					"bible-reading": entry[11],
-					"teachers-talk": entry[13],
-					"teachers-video": entry[14],
-					"initial-call-1": [ entry[16], entry[17] ], 
-					"initial-call-2": [ entry[19], entry[20] ],
-					"return-visit-1": [ entry[22], entry[23] ],
-					"return-visit-2": [ entry[25], entry[26] ],
-					"bible-study": [ entry[28], entry[29] ],
-					"student-talk": entry[31],
-					"living-part-1": entry[34],
-					"living-part-2": entry[36],
-					"congregation-study-conductor": entry[38],
-					"congregation-study-reader": entry[39],
-					"final-prayer": entry[41]
+					"chairman-A": entry["F".ord()],
+					"chairman-B": entry["G".ord()],
+					"treasures": entry["I".ord()],
+					"pearls": entry["K".ord()],
+					"bible-reading-A": entry["M".ord()],
+					"bible-reading-B": entry["N".ord()],
+					"teachers-video": entry["O".ord()],
+					"initial-call-1-A": [ entry["Q".ord()], entry["R".ord()] ], 
+					"initial-call-1-B": [ entry["S".ord()], entry["T".ord()] ], 
+					"initial-call-2-A": [ entry["V".ord()], entry["W".ord()] ],
+					"initial-call-2-B": [ entry["X".ord()], entry["Y".ord()] ],
+					"return-visit-1-A": [ entry["AA".ord()], entry["AB".ord()] ],
+					"return-visit-1-B": [ entry["AC".ord()], entry["AD".ord()] ],
+					"return-visit-2-A": [ entry["AF".ord()], entry["AG".ord()] ],
+					"return-visit-2-A": [ entry["AH".ord()], entry["AI".ord()] ],
+					"bible-study-A": [ entry["AK".ord()], entry["AL".ord()] ],
+					"bible-study-B": [ entry["AM".ord()], entry["AN".ord()] ],
+					"student-talk-A": entry["AP".ord()],
+					"student-talk-B": entry["AQ".ord()],
+					"living-part-1": entry["AT".ord()],
+					"living-part-2": entry["AV".ord()],
+					"congregation-study-conductor": entry["AX".ord()],
+					"congregation-study-reader": entry["AY".ord()],
+					"final-prayer": entry["BA".ord()]
 				}
 			);
 		}

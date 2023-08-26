@@ -71,6 +71,7 @@ body {}
 
 .event .assignee {
     font-size: 14px;
+	line-height: 20px;
     background: #EEE;
     padding: 8px 12px;
     margin: 2px 0px;
