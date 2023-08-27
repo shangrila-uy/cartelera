@@ -12,6 +12,20 @@
 
 body {}
 
+.header {
+    background: #033C69;
+    color: #FFFFFF;
+    padding: 10px 0px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-size: 14px;
+}
+
+.header .month {
+	width: 89%;
+	margin: 0px auto;
+}
+
 .event {
     width: 90%;
     border-radius: 5px;
@@ -20,18 +34,20 @@ body {}
 }
 
 .event .day {
-    color: #424243;
 }
 
 .event .day .number {
-    font-size: 20pt;
+    font-size: 22pt;
+    letter-spacing: 2px;
     display: inline-flex;
 }
 
-.event .day .date,
-.event .day .month {
-    font-size: 16pt;
+.event .day .date {
+    color: #626262;
+    font-size: 14pt;
+    letter-spacing: 1px;
     display: inline-flex;
+    margin-left: 2px;
 }
 
 .event .rows {
@@ -144,18 +160,12 @@ body {}
     border-radius: 10px;
 }
 
-.arrow-right {
-    background-color: #444;
-    height: 20px;
-    right: -12px;
-    position: absolute;
-    top: -12px;
-    width: 20px;
-    -webkit-transform: rotate(-45deg);
-}
-
 @media screen and (min-width:750px) {
 
+	.header .month {
+        width: 545px;
+	}
+	
     .event {
         width: 550px;
     }

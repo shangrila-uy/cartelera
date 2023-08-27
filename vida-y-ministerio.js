@@ -33,9 +33,10 @@ function fill(item, selector, content) {
 function processData(meetingsRequest) {
 	var meetingsData = JSON.parse(meetingsRequest.responseText);
 	var formattedData = {};
-	var template = $(".event");
+	var header = $(".header");
+	var event = $(".event");
 	var phoneLink = "https://wa.me/598";
-	var today = new Date(1900 + new Date().getYear(), new Date().getMonth(), new Date().getDate());
+	var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 
 	for (var i = 55; i < meetingsData.values.length; i++) {
 		var entry = meetingsData.values[i];
@@ -84,19 +85,32 @@ function processData(meetingsRequest) {
 	}
 
 	console.log(formattedData);
+	var lastMonth = 0;
 
 	for (var day in formattedData) {
 		var date = new Date(day);
-		var item = template.clone();
-		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }));
+		var item = event.clone();
+		
+		if (date.getMonth() != lastMonth) {
+			var month = header.clone();
+			fill(
+				month, 
+				".month", 
+				date.toLocaleString('es', {  month: 'long' }).replace("septiembre", "setiembre").toUpperCase() + " " + date.getFullYear()
+			);
+			month.show();
+			$("#table").append(month);
+			lastMonth = date.getMonth()
+		}
+		
+		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }).toUpperCase());
 		fill(item, ".number", date.getDate());
-		fill(item, ".month", "de " + date.toLocaleString('es', {  month: 'long' }).replace("septiembre", "setiembre"));
 		var dates = formattedData[day];
-		var templateRow = item.find(".row").clone();
+		var eventRow = item.find(".row").clone();
 		item.find(".row").remove();
 		
 		for (var i in dates) {
-			var row = templateRow.clone();
+			var row = eventRow.clone();
 			var date = dates[i];
 			
 			for (const assignment in date) {
