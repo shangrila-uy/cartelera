@@ -11,7 +11,12 @@ String.prototype.ord = function() {
 function fill(item, selector, content) {
 	var field = item.find(selector);
 	
-	if (content == null || content.length == 0) {
+	if (content == null || content === '') {
+		if (selector === '.counselor_B') {
+			item.find('.counselor').hide();
+			item.find('.chairman .room').hide();
+			return;
+		}
 		field.hide();
 		return;
 	}
@@ -21,8 +26,33 @@ function fill(item, selector, content) {
 		return;
 	}
 	
-	if (Array.isArray(content)) {
-		field.find(".value").html(content.join("<br />"));
+	if (Array.isArray(content)) {		
+		if (Array.isArray(content[0])) {
+			if (content[0].every(element => element === '')) {
+				field.hide();
+				return;	
+			}
+			for (var i = 0; i < content.length; i++) {
+				var subselector = selector + "_" + (i + 1);
+				if (content[i].every(element => element === '')) {
+					field.find(subselector).hide();
+					field.find(".room").hide();
+					return;
+				}
+				field.find(subselector + " .value").html(content[i].join("<br />"));
+			}
+			return;
+		}
+		
+		for (var i = 0; i < content.length; i++) {
+			var subselector = selector + "_" + (i + 1);
+			if (content[i] === '') {
+				field.find(subselector).hide();
+				field.find(".room").hide();
+				return;
+			}
+			field.find(subselector + " .value").text(content[i]);
+		}
 		return;
 	}
 	
@@ -55,25 +85,33 @@ function processData(meetingsRequest) {
 			}
 			formattedData[date].push(
 				{
-					"chairman-A": entry["F".ord()],
-					"chairman-B": entry["G".ord()],
+					"chairman_A": entry["F".ord()],
+					"counselor_B": entry["G".ord()],
 					"treasures-talk": entry["I".ord()],
 					"pearls": entry["K".ord()],
-					"bible-reading-A": entry["M".ord()],
-					"bible-reading-B": entry["N".ord()],
+					"bible-reading": [ entry["M".ord()], entry["N".ord()] ],
 					"teachers-video": entry["O".ord()],
-					"initial-call-1-A": [ entry["Q".ord()], entry["R".ord()] ], 
-					"initial-call-1-B": [ entry["S".ord()], entry["T".ord()] ], 
-					"initial-call-2-A": [ entry["V".ord()], entry["W".ord()] ],
-					"initial-call-2-B": [ entry["X".ord()], entry["Y".ord()] ],
-					"return-visit-1-A": [ entry["AA".ord()], entry["AB".ord()] ],
-					"return-visit-1-B": [ entry["AC".ord()], entry["AD".ord()] ],
-					"return-visit-2-A": [ entry["AF".ord()], entry["AG".ord()] ],
-					"return-visit-2-A": [ entry["AH".ord()], entry["AI".ord()] ],
-					"bible-study-A": [ entry["AK".ord()], entry["AL".ord()] ],
-					"bible-study-B": [ entry["AM".ord()], entry["AN".ord()] ],
-					"student-talk-A": entry["AP".ord()],
-					"student-talk-B": entry["AQ".ord()],
+					"initial-call-1": [ 
+						[ entry["Q".ord()], entry["R".ord()] ], 
+						[ entry["S".ord()], entry["T".ord()] ]
+					], 
+					"initial-call-2": [
+						[ entry["V".ord()], entry["W".ord()] ],
+						[ entry["X".ord()], entry["Y".ord()] ]
+					],
+					"return-visit-1": [
+						[ entry["AA".ord()], entry["AB".ord()] ],
+						[ entry["AC".ord()], entry["AD".ord()] ]
+					],
+					"return-visit-2": [
+						[ entry["AF".ord()], entry["AG".ord()] ],
+						[ entry["AH".ord()], entry["AI".ord()] ]
+					],
+					"bible-study": [
+						[ entry["AK".ord()], entry["AL".ord()] ],
+						[ entry["AM".ord()], entry["AN".ord()] ]
+					],
+					"student-talk": [ entry["AP".ord()], entry["AQ".ord()] ],
 					"living-part-1": entry["AT".ord()],
 					"living-part-2": entry["AV".ord()],
 					"congregation-study-conductor": entry["AX".ord()],
@@ -121,7 +159,7 @@ function processData(meetingsRequest) {
 					item.find(".rows").append(row);
 					continue;
 				}
-				fill(row, ".assignee." + assignment, date[assignment]);
+				fill(row, "." + assignment, date[assignment]);
 				row.find(".section.special-event").hide();
 				item.find(".rows").append(row);
 			}
