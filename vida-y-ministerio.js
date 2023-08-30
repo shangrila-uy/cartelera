@@ -8,7 +8,7 @@ String.prototype.ord = function() {
 	return (index + 1) * 26 + this.charCodeAt(1) - 65;
 };
 
-function fill(item, selector, content) {
+function fill(item, selector, content, label) {
 	var field = item.find(selector);
 	
 	if (content == null || content === '') {
@@ -57,6 +57,10 @@ function fill(item, selector, content) {
 	}
 	
 	field.find(".value").text(content);
+	
+	if (label !== undefined) {
+		field.find(".label").text(label);
+	}
 }
 
 
@@ -78,13 +82,17 @@ function processData(meetingsRequest) {
 				formattedData[date] = [];
 			}
 			if (isNaN(entry["E".ord()])) {
-				formattedData[date].push({
+				formattedData[date] = {
 					"special-event": entry["E".ord()]
-				});
+				};
 				continue;
 			}
-			formattedData[date].push(
-				{
+			formattedData[date] = {
+				"labels": {
+					"living-part-1": entry["AS".ord()],
+					"living-part-2": entry["AU".ord()],
+				},
+				"assignments": {
 					"chairman_A": entry["F".ord()],
 					"counselor_B": entry["G".ord()],
 					"treasures-talk": entry["I".ord()],
@@ -114,11 +122,10 @@ function processData(meetingsRequest) {
 					"student-talk": [ entry["AP".ord()], entry["AQ".ord()] ],
 					"living-part-1": entry["AT".ord()],
 					"living-part-2": entry["AV".ord()],
-					"congregation-study-conductor": entry["AX".ord()],
-					"congregation-study-reader": entry["AY".ord()],
+					"congregation-study": [ [ entry["AX".ord()], entry["AY".ord()] ] ],
 					"final-prayer": entry["BA".ord()]
 				}
-			);
+			};
 		}
 	}
 
@@ -143,27 +150,28 @@ function processData(meetingsRequest) {
 		
 		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }).toUpperCase());
 		fill(item, ".number", date.getDate());
-		var dates = formattedData[day];
+
 		var eventRow = item.find(".row").clone();
 		item.find(".row").remove();
+		var row = eventRow.clone();
+		var specialEvent = formattedData[day]["special-event"];
 		
-		for (var i in dates) {
-			var row = eventRow.clone();
-			var date = dates[i];
-			
-			for (const assignment in date) {
-				if (assignment == "special-event") {
-					fill(row, ".section." + assignment, date[assignment]);
-					row.find(".section,.assignee").hide();
-					row.find(".section.special-event").show();
-					item.find(".rows").append(row);
-					continue;
-				}
-				fill(row, "." + assignment, date[assignment]);
+		if (specialEvent !== undefined) {
+			row.find(".section,.assignee").hide();
+			fill(row, ".section.special-event", specialEvent);
+			row.find(".section.special-event").show();
+			item.find(".rows").append(row);
+		} else {
+			var labels = formattedData[day]["labels"];
+			var assignments = formattedData[day]["assignments"];
+		
+			for (const assignment in assignments) {
 				row.find(".section.special-event").hide();
+				fill(row, "." + assignment, assignments[assignment], labels[assignment]);
 				item.find(".rows").append(row);
 			}
 		}
+
 		item.show();
 		$("#table").append(item);
 		$(".lds-dual-ring").slideUp();
