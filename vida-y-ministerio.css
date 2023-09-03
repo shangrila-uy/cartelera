@@ -100,11 +100,13 @@ body {}
     background: #E0D1D1;
 }
 
-.event .assignee.chairman {
+.event .assignee.chairman,
+.event .section.tasks {
 	border-radius: 10px 10px 0px 0px;
 }
 
-.event .assignee.final-prayer {
+.event .assignee.final-prayer,
+.event .row.tasks .assignee.last {
 	border-radius: 0px 0px 10px 10px;
 }
 
@@ -186,10 +188,21 @@ body {}
     content: "\e6bb";
 }
 
-.event .special-event {
+.event .section.tasks {
+    background: #626262;
+}
+
+.event .section.tasks::before {
+    content: "\e670";
+}
+
+.event .section.special-event {
 	background: #189443;
-	padding: 14px 16px;
     border-radius: 10px;
+}
+
+.event .section.special-event::before {
+    content: "\e601";
 }
 
 @media screen and (min-width:750px) {

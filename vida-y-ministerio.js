@@ -123,13 +123,22 @@ function processData(meetingsRequest) {
 					"living-part-1": entry["AT".ord()],
 					"living-part-2": entry["AV".ord()],
 					"congregation-study": [ [ entry["AX".ord()], entry["AY".ord()] ] ],
-					"final-prayer": entry["BA".ord()]
+					"final-prayer": entry["BA".ord()],
+					// ---
+					"video": entry["BB".ord()],
+					"sound": entry["BC".ord()],
+					"hall": entry["BG".ord()],
+					"attendants": [ entry["BH".ord()], entry["BI".ord()] ],
+					"parking": entry["BJ".ord()],
+					"stage": entry["BF".ord()],
+					"microphones": [ [ entry["BD".ord()], entry["BE".ord()] ] ],
+					"cleaning": "Grupos " + entry["BK".ord()]
 				}
 			};
 		}
 	}
 
-	console.log(formattedData);
+	// console.log(formattedData);
 	var lastMonth = 0;
 
 	for (var day in formattedData) {
@@ -151,15 +160,13 @@ function processData(meetingsRequest) {
 		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }).toUpperCase());
 		fill(item, ".number", date.getDate());
 
-		var eventRow = item.find(".row").clone();
+		var row = item.find(".row").clone();
 		item.find(".row").remove();
-		var row = eventRow.clone();
 		var specialEvent = formattedData[day]["special-event"];
 		
 		if (specialEvent !== undefined) {
-			row.find(".section,.assignee").hide();
+			row = row.filter(".special-event").clone();
 			fill(row, ".section.special-event", specialEvent);
-			row.find(".section.special-event").show();
 			item.find(".rows").append(row);
 		} else {
 			var labels = formattedData[day]["labels"];
@@ -174,6 +181,7 @@ function processData(meetingsRequest) {
 
 		item.show();
 		$("#table").append(item);
+    	item.find(".row.tasks .assignee:visible:last").addClass("last");
 		$(".lds-dual-ring").slideUp();
 	}
 }
