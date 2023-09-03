@@ -63,6 +63,17 @@ function fill(item, selector, content, label) {
 	}
 }
 
+function fillZoom(item, link) {
+	var zoom = item.find(".zoom a");
+	
+	if (link === undefined) {
+		zoom.hide();
+		return;
+	}
+	
+	zoom.attr("href", link);
+}
+
 
 function processData(meetingsRequest) {
 	var meetingsData = JSON.parse(meetingsRequest.responseText);
@@ -88,6 +99,7 @@ function processData(meetingsRequest) {
 				continue;
 			}
 			formattedData[date] = {
+				"zoom": entry["BL".ord()],
 				"labels": {
 					"living-part-1": entry["AS".ord()],
 					"living-part-2": entry["AU".ord()],
@@ -171,7 +183,8 @@ function processData(meetingsRequest) {
 		} else {
 			var labels = formattedData[day]["labels"];
 			var assignments = formattedData[day]["assignments"];
-		
+			fillZoom(item, formattedData[day]["zoom"]);
+
 			for (const assignment in assignments) {
 				row.find(".section.special-event").hide();
 				fill(row, "." + assignment, assignments[assignment], labels[assignment]);
