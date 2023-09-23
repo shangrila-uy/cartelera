@@ -29,20 +29,33 @@ function fill(item, selector, content, max, href) {
 	field.find(".value").text(content);
 }
 
+function getNextSaturdayDate() {
+  const today = new Date();
+  // Calculate days until Saturday (0 = Sunday, 6 = Saturday)
+  const daysUntilSaturday = 6 - today.getDay(); 
+  
+  const nextSaturday = new Date(today);
+  // Add 7 to ensure it's next week
+  nextSaturday.setDate(today.getDate() + daysUntilSaturday + 7); 
+  
+  return nextSaturday;
+}
+
 function processData(request) {
-	var data = JSON.parse(request.responseText);
-	var formattedData = {};
-	var template = $(".event");
-	var today = new Date(1900 + new Date().getYear(), new Date().getMonth(), new Date().getDate());
+	const data = JSON.parse(request.responseText);
+	const template = $(".event");
+	const today = new Date(1900 + new Date().getYear(), new Date().getMonth(), new Date().getDate());
 	// https://docs.google.com/forms/d/e/1FAIpQLScScCAr5r86J0depVrnr2odURDqJZNRoZXbRj3uwDByrBsf9w/viewform?usp=pp_url&entry.991199226=2023-09-25&entry.535397679=Break+(9:00+-+10:30)&entry.1187083074=Ismael+Machado
-	var link = "https://docs.google.com/forms/d/e/1FAIpQLScScCAr5r86J0depVrnr2odURDqJZNRoZXbRj3uwDByrBsf9w/viewform?usp=pp_url&entry.991199226=${1}&entry.535397679=${2}&entry.1187083074=";
+	const link = "https://docs.google.com/forms/d/e/1FAIpQLScScCAr5r86J0depVrnr2odURDqJZNRoZXbRj3uwDByrBsf9w/viewform?usp=pp_url&entry.991199226=${1}&entry.535397679=${2}&entry.1187083074=";
+	const nextSaturday = getNextSaturdayDate();
+	let formattedData = {};
 
 	for (var i = 1; i < data.values.length; i++) {
 		var entry = data.values[i];
 		var day = entry[0];
 		var splittedDay = day.split("/");
 		var date = new Date(20 + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
-		if (date >= today) {
+		if (date >= today && date <= nextSaturday) {
 			if (formattedData[date] === undefined) {
 				formattedData[date] = [];
 			}
