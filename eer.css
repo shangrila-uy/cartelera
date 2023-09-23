@@ -1,0 +1,123 @@
+* {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+body { }
+
+.header {
+	background: #666;
+	text-align: center;
+	padding: 40px;
+	color: #FFFFFF;
+}
+
+.button {
+	border: 2px solid #777;
+	text-decoration: none;
+	color: #555;
+	padding: 4px 12px;
+	border-radius: 18px;
+	font-size: 12pt;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+
+.event {
+	width: 90%;
+	border-radius: 5px;
+	margin: 20px auto;
+	display: flex;
+	flex-direction: row;
+	box-shadow: 2px 2px 10px #CCCCCC;
+}
+
+.event .rows {
+	width: 74%;
+	margin-top: 10px;
+}
+
+.event .row {
+	display: flex;
+	flex-direction: column;
+	color: #424242;
+	padding: 10px;
+	margin-bottom: 10px;
+	background: #EEE;
+	border-radius: 5px;
+}
+
+.event .row .title {
+	display: flex;
+	margin-bottom: 4px;
+	font-size: 16pt;
+}
+
+.event .row .time {
+	display: flex;
+	margin-bottom: 4px;
+	font-size: 12pt;
+}
+
+.event .row .volunteers {
+	margin-bottom: 4px;
+	font-size: 12pt;
+	display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.event .row .volunteers a {
+	width: 75px;
+}
+
+
+.event .time img { 
+	width: 14px;
+	margin-right: 8px;
+}
+
+.event .day {
+	width: 20%;
+	color: #424243;
+	font-weight: 900;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	border-radius: 0 5px 5px 0;
+	margin-top: 8px;
+}
+
+.event .day .number { 
+	font-size: 25pt; 
+}
+
+.arrow-right {
+	background-color: #444;
+	height: 20px;
+	right: -12px;
+	position: absolute;
+	top: -12px;
+	width: 20px;
+	-webkit-transform: rotate(-45deg);
+}
+
+@media screen and (min-width:750px) {
+
+	.event { 
+		width: 60%; 
+	}
+	.event .row .title {
+		font-size: 18pt;
+	}
+	.event .row .volunteers,
+	.event .row .time { 
+		font-size: 14pt;
+	}
+}
