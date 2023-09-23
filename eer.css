@@ -18,9 +18,9 @@ body { }
 	border: 2px solid #777;
 	text-decoration: none;
 	color: #555;
-	padding: 4px 12px;
+	padding: 2px 8px;
 	border-radius: 18px;
-	font-size: 12pt;
+	font-size: 10pt;
 }
 
 .button:hover {
@@ -37,8 +37,9 @@ body { }
 }
 
 .event .rows {
-	width: 74%;
+	width: 80%;
 	margin-top: 10px;
+	margin-right: 10px;
 }
 
 .event .row {
@@ -54,13 +55,15 @@ body { }
 .event .row .title {
 	display: flex;
 	margin-bottom: 4px;
-	font-size: 16pt;
+	font-size: 12pt;
+	font-weight: 600;
 }
 
 .event .row .time {
 	display: flex;
 	margin-bottom: 4px;
 	font-size: 12pt;
+	color: #777;
 }
 
 .event .row .volunteers {
@@ -72,13 +75,14 @@ body { }
 }
 
 .event .row .volunteers a {
-	width: 75px;
+	width: 66px;
 }
 
 
 .event .time img { 
 	width: 14px;
 	margin-right: 8px;
+	opacity: 0.5;
 }
 
 .event .day {
@@ -113,8 +117,11 @@ body { }
 	.event { 
 		width: 60%; 
 	}
+	.event .rows {
+		margin-right: 16px;
+	}
 	.event .row .title {
-		font-size: 18pt;
+		font-size: 14pt;
 	}
 	.event .row .volunteers,
 	.event .row .time { 

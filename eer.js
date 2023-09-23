@@ -1,7 +1,7 @@
 function fill(item, selector, content, max, href) {
 	var field = item.find(selector);
 	
-	if (content == null || content.length == 0) {
+	if (content == null || content.length == 0 || content === undefined) {
 		field.hide();
 		return;
 	}
@@ -20,9 +20,9 @@ function fill(item, selector, content, max, href) {
 		var assigned = content.filter(e => e !== '').length;
 		// field.find(".value").text(assigned + " / " + max + " voluntarios");
 
-		if (assigned == max) {
+		// if (assigned == max) {
 			field.find(".button").hide();
-		}
+		// }
 		return;
 	}
 	
@@ -39,6 +39,16 @@ function getNextSaturdayDate() {
   nextSaturday.setDate(today.getDate() + daysUntilSaturday + 7); 
   
   return nextSaturday;
+}
+
+function processContent(content) {
+	if (content === undefined || content === '') return [];
+	
+	if (typeof content === 'string') {
+		return content.split("\n");
+	}
+	
+	return content;
 }
 
 function processData(request) {
@@ -63,21 +73,21 @@ function processData(request) {
 				"start": "9:00",
 				"finish": "10:30",
 				"title": "Break",
-				"volunteers": [ entry[1], entry[2] ],
+				"volunteers": processContent(entry[1]),
 				"max": 2
 			});
 			formattedData[date].push({
 				"start": "10:00",
 				"finish": "11:00",
 				"title": "Fruta",
-				"volunteers": [ entry[3], entry[4], entry[5], entry[6] ],
+				"volunteers": processContent(entry[2]),
 				"max": 4
 			});
 			formattedData[date].push({
 				"start": "11:00",
 				"finish": "13:00",
 				"title": "Almuerzo",
-				"volunteers": [ entry[7], entry[8], entry[9] ],
+				"volunteers": processContent(entry[3]),
 				"max": 3
 			});
 			/*
@@ -85,7 +95,7 @@ function processData(request) {
 				"start": "9:00",
 				"finish": "10:30",
 				"title": "Break de la tarde",
-				"volunteers": [ entry[10], entry[11] ],
+				"volunteers": processContent(entry[4]),
 				"max": 2
 			});
 			*/
@@ -93,7 +103,7 @@ function processData(request) {
 				"start": "18:00",
 				"finish": "19:00",
 				"title": "Limpieza",
-				"volunteers": [ entry[12], entry[13], entry[14], entry[15] ],
+				"volunteers": processContent(entry[5]),
 				"max": 4
 			});
 			/*
@@ -101,14 +111,14 @@ function processData(request) {
 				"start": "18:30",
 				"finish": "19:00",
 				"title": "Desarmado",
-				"volunteers": [ entry[16], entry[17], entry[18] ],
+				"volunteers": processContent(entry[6]),
 				"max": 3
 			});
 			formattedData[date].push({
 				"start": "21:00",
 				"finish": "21:30",
 				"title": "Armado",
-				"volunteers": [ entry[19], entry[20], entry[21] ],
+				"volunteers": processContent(entry[7]),
 				"max": 3
 			});
 			*/
@@ -135,7 +145,7 @@ function processData(request) {
 			var href = link.replace("${1}", fullDate)
 							.replace("${2}", time.title + " (" + schedule + ")")
 							.replaceAll(" ", "+");
-			console.log(href);
+			// console.log(href);
 			fill(row, ".title", time.title);
 			fill(row, ".time", schedule);
 			fill(row, ".volunteers", time.volunteers, time.max, href);
