@@ -72,7 +72,7 @@ function processData(request) {
 			formattedData[date].push({
 				"start": "9:00",
 				"finish": "10:30",
-				"title": "Break",
+				"title": "Break de la mañana",
 				"volunteers": processContent(entry[1]),
 				"max": 2
 			});
@@ -90,15 +90,13 @@ function processData(request) {
 				"volunteers": processContent(entry[3]),
 				"max": 3
 			});
-			/*
 			formattedData[date].push({
-				"start": "9:00",
-				"finish": "10:30",
+				"start": "14:30",
+				"finish": "15:30",
 				"title": "Break de la tarde",
 				"volunteers": processContent(entry[4]),
 				"max": 2
 			});
-			*/
 			formattedData[date].push({
 				"start": "18:00",
 				"finish": "19:00",
