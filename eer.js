@@ -1,6 +1,7 @@
-function fill(item, selector, content, max, href) {
+function fill(item, selector, content, href) {
 	var field = item.find(selector);
-	
+	field.find(".button").hide();
+
 	if (content == null || content.length == 0 || content === undefined) {
 		field.hide();
 		return;
@@ -10,6 +11,11 @@ function fill(item, selector, content, max, href) {
 	if (Array.isArray(content)) {
 		field.find(".button").attr("href", href);
 		
+		if (content.every(e => e === '-')) {
+			item.hide();
+			return;
+		}
+
 		if (content.every(e => e === '')) {
 			field.find(".value").hide();
 			return;
@@ -18,10 +24,9 @@ function fill(item, selector, content, max, href) {
 		field.find(".value").html(content.filter(e => e !== '').join("<br />"));
 		
 		var assigned = content.filter(e => e !== '').length;
-		// field.find(".value").text(assigned + " / " + max + " voluntarios");
+		// field.find(".value").text(assigned + " / " + content.length + " voluntarios");
 
-		// if (assigned == max) {
-			field.find(".button").hide();
+		// if (assigned == content.length) {
 		// }
 		return;
 	}
@@ -73,51 +78,44 @@ function processData(request) {
 				"start": "9:00",
 				"finish": "10:30",
 				"title": "Break de la mañana",
-				"volunteers": processContent(entry[1]),
-				"max": 2
+				"volunteers": processContent(entry[1])
 			});
 			formattedData[date].push({
 				"start": "10:00",
 				"finish": "11:00",
 				"title": "Fruta",
-				"volunteers": processContent(entry[2]),
-				"max": 4
+				"volunteers": processContent(entry[2])
 			});
 			formattedData[date].push({
 				"start": "11:00",
 				"finish": "13:00",
 				"title": "Almuerzo",
-				"volunteers": processContent(entry[3]),
-				"max": 3
+				"volunteers": processContent(entry[3])
 			});
 			formattedData[date].push({
 				"start": "14:30",
 				"finish": "15:30",
 				"title": "Break de la tarde",
-				"volunteers": processContent(entry[4]),
-				"max": 2
+				"volunteers": processContent(entry[4])
 			});
 			formattedData[date].push({
 				"start": "18:00",
-				"finish": "19:00",
+				"finish": "18:30",
 				"title": "Limpieza",
-				"volunteers": processContent(entry[5]),
-				"max": 4
+				"volunteers": processContent(entry[5])
 			});
 			/*
 			formattedData[date].push({
 				"start": "18:30",
 				"finish": "19:00",
 				"title": "Desarmado",
-				"volunteers": processContent(entry[6]),
-				"max": 3
+				"volunteers": processContent(entry[6])
 			});
 			formattedData[date].push({
 				"start": "21:00",
 				"finish": "21:30",
 				"title": "Armado",
-				"volunteers": processContent(entry[7]),
-				"max": 3
+				"volunteers": processContent(entry[7])
 			});
 			*/
 		}
@@ -135,10 +133,13 @@ function processData(request) {
 		item.find(".row").remove();
 		for (var i in times) {
 			var time = times[i];
-			if (time.volunteers.every(element => element === '-')) continue;
+			// if (time.volunteers.every(element => element === '-')) continue;
 			
 			var row = templateRow.clone();
-			var schedule = time.start + " - " + time.finish;
+			var schedule = time.start;
+			if (time.finish !== '') {
+				schedule += " - " + time.finish;
+			}
 			var fullDate = (date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()).replace(/\d+/g, c=>c.padStart(2,'0'));
 			var href = link.replace("${1}", fullDate)
 							.replace("${2}", time.title + " (" + schedule + ")")
@@ -146,7 +147,7 @@ function processData(request) {
 			// console.log(href);
 			fill(row, ".title", time.title);
 			fill(row, ".time", schedule);
-			fill(row, ".volunteers", time.volunteers, time.max, href);
+			fill(row, ".volunteers", time.volunteers, href);
 			item.find(".rows").append(row);
 		}
 		item.show();
