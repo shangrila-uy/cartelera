@@ -70,6 +70,10 @@ function processData(request) {
 		var day = entry[0];
 		var splittedDay = day.split("/");
 		var date = new Date(20 + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
+		
+		console.log(date);
+		console.log(today);
+		
 		if (date >= today && date <= nextSaturday) {
 			if (formattedData[date] === undefined) {
 				formattedData[date] = [];
@@ -81,8 +85,8 @@ function processData(request) {
 				"volunteers": processContent(entry[1])
 			});
 			formattedData[date].push({
-				"start": "10:00",
-				"finish": "11:00",
+				"start": "12:00",
+				"finish": "13:00",
 				"title": "Fruta",
 				"volunteers": processContent(entry[2])
 			});
@@ -121,7 +125,7 @@ function processData(request) {
 		}
 	}
 	
-	console.log(formattedData);
+	// console.log(formattedData);
 	
 	for (var day in formattedData) {
 		var date = new Date(day);
