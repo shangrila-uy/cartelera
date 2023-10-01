@@ -85,15 +85,15 @@ function processData(request) {
 				"volunteers": processContent(entry[1])
 			});
 			formattedData[date].push({
-				"start": "12:00",
-				"finish": "13:00",
-				"title": "Fruta",
-				"volunteers": processContent(entry[2])
-			});
-			formattedData[date].push({
 				"start": "11:00",
 				"finish": "13:00",
 				"title": "Almuerzo",
+				"volunteers": processContent(entry[2])
+			});
+			formattedData[date].push({
+				"start": "12:00",
+				"finish": "13:00",
+				"title": "Fruta",
 				"volunteers": processContent(entry[3])
 			});
 			formattedData[date].push({
