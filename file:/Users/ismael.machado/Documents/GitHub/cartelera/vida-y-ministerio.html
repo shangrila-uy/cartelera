@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="vida-y-ministerio.css" />
+	<link rel="stylesheet" href="spinner.css">
+	<script
+	  src="https://code.jquery.com/jquery-3.7.0.min.js"
+	  integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+	  crossorigin="anonymous"></script>
+  	<script type="text/javascript" src="vida-y-ministerio.js"></script>
+    <title>Reuniones de Congregación</title>
+</head>
+
+<body onload="meetings()">
+
+	<div class="lds-dual-ring"></div>
+
+    <div id="table" class="table">
+    	<div class="header" style="display: none;">
+            <div class="month">
+	    		<span class="value">AGOSTO 2023</span>
+	    	</div>
+	    </div>
+        <div class="event" style="display: none;">
+            <div class="day">
+                <div class="number"><span class="value">22</span></div>
+                <div class="date"><span class="value">MIÉRCOLES</span></div>
+                <div class="link"><a target="_blank" ><img src="images/zoom.png" /></a></div>
+            </div>
+            <div class="rows">
+                <div class="row">
+                    <div class="assignee double chairman">
+       	                <span class="label">Presidente</span>
+           	            <div class="chairman_A">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee double counselor">
+               	        <span class="label">Consejero de la sala auxiliar</span>
+                    	<div class="counselor_B">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    </div>
+                    
+                    <div class="section treasures">
+                    	<h2>TESOROS DE LA BIBLIA</h2>
+                    </div>
+                    
+                    <div class="assignee treasures treasures-talk">
+                        <span class="label">Discurso</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee treasures pearls">
+                        <span class="label">Busquemos perlas escondidas (10 mins.)</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee treasures double bible-reading">
+                        <span class="label">Lectura de la Biblia (4 mins.)</span>
+                        <div class="bible-reading_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    	<div class="bible-reading_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    </div>
+                    
+                    <div class="section teachers">
+                    	<h2>SEAMOS MEJORES MAESTROS</h2>
+                    </div>
+                                        
+                    <div class="assignee teachers teachers-discussion-1">
+                        <span class="label">Análisis 1</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee teachers teachers-discussion-2">
+                        <span class="label">Análisis 2</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee teachers double student-assignment-1">
+                        <span class="label">Asignación 1</span>
+                    	<div class="student-assignment-1_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="student-assignment-1_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+					<div class="assignee teachers double student-assignment-2">
+                        <span class="label">Asignación 2</span>
+                    	<div class="student-assignment-2_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="student-assignment-2_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+					<div class="assignee teachers double student-assignment-3">
+                        <span class="label">Asignación 3</span>
+                    	<div class="student-assignment-3_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="student-assignment-3_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+					<div class="assignee teachers double student-assignment-4">
+                        <span class="label">Asignación 4</span>
+                    	<div class="student-assignment-4_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="student-assignment-4_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+
+					<!-- Legacy start -->
+                    <div class="assignee teachers teachers-video">
+                        <span class="label">Video</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee teachers double initial-call-1">
+                        <span class="label">Primera conversación</span>
+                    	<div class="initial-call-1_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="initial-call-1_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee teachers double initial-call-2">
+                        <span class="label">Primera conversación</span>
+                    	<div class="initial-call-2_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="initial-call-2_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee teachers double return-visit-1">
+                        <span class="label">Revisita</span>
+                    	<div class="return-visit-1_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="return-visit-1_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee teachers double return-visit-2">
+                        <span class="label">Revisita</span>
+                    	<div class="return-visit-2_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="return-visit-2_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee teachers double bible-study">
+                        <span class="label">Curso Biblico</span>
+                    	<div class="bible-study_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    	<div class="bible-study_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-<br>-</span>
+	                    </div>
+                    </div>
+					<!-- Legacy end -->
+                    
+                    <div class="assignee teachers double student-talk">
+                        <span class="label">Discurso</span>
+                    	<div class="student-talk_1">
+                        	<span class="room">Principal</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    	<div class="student-talk_2">
+                        	<span class="room">Auxiliar</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    </div>
+
+					<div class="section christian">
+                    	<h2>NUESTRA VIDA CRISTIANA</h2>
+                    </div>
+                    
+                    <div class="assignee christian living-part-1">
+                        <span class="label">Primera asignación</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee christian living-part-2">
+                        <span class="label">Segunda asignación</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee christian congregation-study">
+                    	<div class="congregation-study_1">
+                        	<span class="label">Estudio bíblico de la congregación (30 mins.)</span>
+                        	<span class="value">-<br>-</span>
+                    	</div>
+                    </div>
+                    <div class="assignee final-prayer">
+                        <span class="label">Oración</span>
+                        <span class="value">-</span>
+                    </div>
+                </div>
+                <div class="row tasks">
+                	<div class="section tasks">
+                    	<h2>TAREAS</h2>
+                    </div>
+					<div class="assignee double multimedia">
+                        <span class="label">Multimedia</span>
+                    	<div class="multimedia_1">
+                        	<span class="room">Video</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    	<div class="multimedia_2">
+                        	<span class="room">Sonido</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee hall">
+                        <span class="label">Apertura del Salón</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee double attendants">
+                        <span class="label">Acomodadores</span>
+                    	<div class="attendants_1">
+                        	<span class="room">Entrada</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    	<div class="attendants_2">
+                        	<span class="room">Auditorio</span>
+    	                    <span class="value">-</span>
+	                    </div>
+                    </div>
+                    <div class="assignee parking">
+                        <span class="label">Tránsito</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee stage">
+                        <span class="label">Plataforma</span>
+                        <span class="value">-</span>
+                    </div>
+                    <div class="assignee microphones">
+                    	<div class="microphones_1">
+                        	<span class="label">Micrófonos</span>
+                        	<span class="value">-<br>-</span>
+                    	</div>
+                    </div>
+                    <div class="assignee cleaning">
+                    	<span class="label">Limpieza</span>
+                        <span class="value">-</span>
+                    </div>
+                </div>
+                <div class="row special-event">
+                    <div class="section special-event">
+                    	<h2 class="value">XXX</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

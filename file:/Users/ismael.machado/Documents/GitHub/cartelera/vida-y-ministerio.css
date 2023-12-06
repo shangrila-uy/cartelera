@@ -1,0 +1,224 @@
+@font-face {
+    font-family: jw-icons-external;
+  	src: url(fonts/jw-icons-external.woff);
+}
+
+* {
+    border: 0;
+    margin: 0;
+    padding: 0;
+	font-family: NotoSans,Arial,"Arial Unicode MS",sans-serif;
+}
+
+body {}
+
+.header {
+    background: #033C69;
+    color: #FFFFFF;
+    padding: 10px 0px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-size: 14px;
+}
+
+.header .month {
+	width: 89%;
+	margin: 0px auto;
+}
+
+.event {
+    width: 90%;
+    border-radius: 5px;
+    margin: 30px auto;
+    flex-direction: row;
+}
+
+.event .day {
+	display: flex;
+}
+
+.event .day .number {
+    font-size: 22pt;
+    letter-spacing: 2px;
+}
+
+.event .day .date {
+    color: #626262;
+    font-size: 14pt;
+    letter-spacing: 1px;
+    margin: auto 0px 2px 6px;
+}
+
+.event .day .link {
+    margin-left: auto;
+}
+
+.event .rows {
+    margin-top: 4px;
+}
+
+.event .row {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
+
+.event .label {
+    font-size: 16px;
+    display: block;
+    font-weight: bold;
+}
+
+.event .row .treasures .label {
+    color: #2a6b77;
+}
+
+.event .row .teachers .label {
+    color: #9b6d17;
+}
+
+.event .row .christian .label {
+    color: #942926;
+}
+
+.event .value {
+    display: block;
+}
+
+.event .assignee {
+    font-size: 16px;
+    background: #EEE;
+    padding: 8px 12px;
+    margin: 2px 0px;
+}
+
+.event .assignee .value {
+    margin-top: 4px;
+}
+
+.event .assignee.double div {
+    display: flex;
+	flex-direction: row;
+}
+
+.event .assignee.chairman,
+.event .section.tasks {
+	border-radius: 10px 10px 0px 0px;
+}
+
+.event .assignee.final-prayer,
+.event .row.tasks .assignee.last {
+	border-radius: 0px 0px 10px 10px;
+}
+
+.event .assignee .room {
+    display: block;
+    width: 55px;
+    height: 16px;
+    margin-top: 4px;
+    padding: 2px 10px 0px 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    border-radius: 10px;
+    background: #AAAAAA;
+}
+
+.event .assignee.double .room {
+    margin-right: 6px;
+}
+
+.event .assignee.treasures .room {
+    background: #2a6b77;
+}
+
+.event .assignee.teachers .room {
+    background: #9b6d17;
+}
+
+.event .assignee.christian .room {
+    background: #942926;
+}
+
+.event .section {
+    margin: 2px 0px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding: 4px 8px;
+}
+
+.event .section h2 {
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.event .section::before {
+    font-family: jw-icons-external;
+    display: inline-flex;
+    font-size: 32px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    height: 40px;
+    width: 40px;
+    margin-right: 8px;
+    font-weight: normal;
+}
+
+.event .section.treasures {
+    background: #3c7f8b;
+}
+
+.event .section.treasures::before {
+    content: "\e65c";
+}
+
+.event .section.teachers {
+    background: #d68f00;
+}
+
+.event .section.teachers::before {
+    content: "\e6ec";
+}
+
+.event .section.christian {
+    background: #bf2f13;
+}
+
+.event .section.christian::before {
+    content: "\e6bb";
+}
+
+.event .section.tasks {
+    background: #626262;
+}
+
+.event .section.tasks::before {
+    content: "\e670";
+}
+
+.event .section.special-event {
+	background: #189443;
+    border-radius: 10px;
+}
+
+.event .section.special-event::before {
+    content: "\e601";
+}
+
+@media screen and (min-width:750px) {
+
+	.header .month {
+        width: 545px;
+	}
+	
+    .event {
+        width: 550px;
+    }
+
+}
