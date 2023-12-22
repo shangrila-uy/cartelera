@@ -7,7 +7,7 @@
     border: 0;
     margin: 0;
     padding: 0;
-	font-family: NotoSans,Arial,"Arial Unicode MS",sans-serif;
+    font-family: NotoSans,Arial,"Arial Unicode MS",sans-serif;
 }
 
 body {}
@@ -27,27 +27,40 @@ body {}
 }
 
 .header .month {
-	width: 89%;
-	margin: 0px auto;
+	margin: 0px 5%;
+	display: flex;
 }
 
-.event {
+.header .assignee-filter {
+    font-family: jw-icons-external;
+    display: inline-flex;
+    font-size: 20px;
+    color: #FFFFFF;
+    height: 20px;
+    width: 20px;
+    font-weight: normal;
+    flex-direction: row;
+    margin-left: auto;
+    text-decoration: none;
+}
+
+.meeting {
     width: 90%;
     border-radius: 5px;
     margin: 30px auto;
     flex-direction: row;
 }
 
-.event .day {
+.meeting .day {
 	display: flex;
 }
 
-.event .day .number {
+.meeting .day .number {
     font-size: 22pt;
     letter-spacing: 2px;
 }
 
-.event .day .date {
+.meeting .day .date {
     color: #626262;
     font-size: 14pt;
     letter-spacing: 1px;
@@ -55,70 +68,71 @@ body {}
     padding-bottom: 3px;
 }
 
-.event .day .link {
+.meeting .day .link {
     margin-left: auto;
 }
 
-.event .rows {
+.meeting .rows {
     margin-top: 4px;
 }
 
-.event .row {
+.meeting .row {
 	display: flex;
 	flex-direction: column;
 	margin-bottom: 10px;
 	border-radius: 10px;
 }
 
-.event .label {
+.meeting .label {
     font-size: 16px;
     display: block;
     font-weight: bold;
 }
 
-.event .row .treasures .label {
+.meeting .row .treasures .label,
+.meeting .row .public-talk .label{
     color: #2a6b77;
 }
 
-.event .row .teachers .label {
+.meeting .row .teachers .label,
+.meeting .row .watchtower-study .label{
     color: #9b6d17;
 }
 
-.event .row .christian .label {
+.meeting .row .christian .label {
     color: #942926;
 }
 
-.event .value {
+.meeting .value {
     display: block;
 }
 
-.event .assignee {
+.meeting .assignee {
     font-size: 16px;
     background: #EEE;
     padding: 8px 12px;
     margin: 2px 0px;
 }
 
-.event .assignee .value {
+.meeting .assignee .value {
     margin-top: 4px;
 }
 
-.event .assignee.double div {
+.meeting .assignee.double div {
     display: flex;
 	flex-direction: row;
 }
 
-.event .assignee.chairman,
-.event .section.tasks {
+.meeting .assignee.first,
+.meeting .section.tasks h2 {
 	border-radius: 10px 10px 0px 0px;
 }
 
-.event .assignee.final-prayer,
-.event .row.tasks .assignee.last {
+.meeting .assignee.last {
 	border-radius: 0px 0px 10px 10px;
 }
 
-.event .assignee .room {
+.meeting .assignee .room {
     display: block;
     width: 55px;
     height: 16px;
@@ -131,23 +145,23 @@ body {}
     background: #AAAAAA;
 }
 
-.event .assignee.double .room {
+.meeting .assignee.double .room {
     margin-right: 6px;
 }
 
-.event .assignee.treasures .room {
+.meeting .assignee.treasures .room {
     background: #2a6b77;
 }
 
-.event .assignee.teachers .room {
+.meeting .assignee.teachers .room {
     background: #9b6d17;
 }
 
-.event .assignee.christian .room {
+.meeting .assignee.christian .room {
     background: #942926;
 }
 
-.event .section {
+.meeting .section h2 {
     margin: 2px 0px;
     display: flex;
     align-items: center;
@@ -155,7 +169,7 @@ body {}
     padding: 4px 8px;
 }
 
-.event .section h2 {
+.meeting .section h2 {
     font-size: 18px;
     font-weight: 700;
     white-space: nowrap;
@@ -163,7 +177,7 @@ body {}
     text-overflow: ellipsis;
 }
 
-.event .section::before {
+.meeting .section h2::before {
     font-family: jw-icons-external;
     display: inline-flex;
     font-size: 32px;
@@ -176,44 +190,54 @@ body {}
     font-weight: normal;
 }
 
-.event .section.treasures {
+.meeting .section.treasures h2,
+.meeting .section.public-talk h2 {
     background: #3c7f8b;
 }
 
-.event .section.treasures::before {
+.meeting .section.treasures h2::before {
     content: "\e65c";
 }
 
-.event .section.teachers {
+.meeting .section.public-talk h2::before {
+    content: "\e6c2";
+}
+
+.meeting .section.teachers h2,
+.meeting .section.watchtower-study h2{
     background: #d68f00;
 }
 
-.event .section.teachers::before {
+.meeting .section.teachers h2::before {
     content: "\e6ec";
 }
 
-.event .section.christian {
+.meeting .section.watchtower-study h2::before {
+    content: "\e6ea";
+}
+
+.meeting .section.christian h2 {
     background: #bf2f13;
 }
 
-.event .section.christian::before {
+.meeting .section.christian h2::before {
     content: "\e6bb";
 }
 
-.event .section.tasks {
+.meeting .section.tasks h2 {
     background: #626262;
 }
 
-.event .section.tasks::before {
+.meeting .section.tasks h2::before {
     content: "\e670";
 }
 
-.event .section.special-event {
+.meeting .section.special-event h2 {
 	background: #189443;
     border-radius: 10px;
 }
 
-.event .section.special-event::before {
+.meeting .section.special-event h2::before {
     content: "\e601";
 }
 
@@ -223,7 +247,7 @@ body {}
         width: 545px;
 	}
 	
-    .event {
+    .meeting {
         width: 550px;
     }
 

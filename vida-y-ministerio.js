@@ -17,30 +17,30 @@ function fill(item, selector, content, label) {
 	
 	if (content == null || content === '') {
 		if (selector === '.counselor_B') {
-			item.find('.counselor').hide();
-			item.find('.chairman .room').hide();
+			item.find('.counselor').remove();
+			item.find('.chairman .room').remove();
 			return;
 		}
-		field.hide();
+		field.remove();
 		return;
 	}
 	
 	if (Array.isArray(content) && content.every(element => element === '')) {
-		field.hide();
+		field.remove();
 		return;
 	}
 	
 	if (Array.isArray(content)) {		
 		if (Array.isArray(content[0])) {
 			if (content[0].every(element => element === '')) {
-				field.hide();
+				field.remove();
 				return;	
 			}
 			for (var i = 0; i < content.length; i++) {
 				var subselector = selector + "_" + (i + 1);
 				if (content[i].every(element => element === '')) {
-					field.find(subselector).hide();
-					field.find(".room").hide();
+					field.find(subselector).remove();
+					field.find(".room").remove();
 					return;
 				}
 				field.find(subselector + " .value").html(content[i].join("<br />"));
@@ -51,8 +51,8 @@ function fill(item, selector, content, label) {
 		for (var i = 0; i < content.length; i++) {
 			var subselector = selector + "_" + (i + 1);
 			if (content[i] === '') {
-				field.find(subselector).hide();
-				field.find(".room").hide();
+				field.find(subselector).remove();
+				field.find(".room").remove();
 				return;
 			}
 			field.find(subselector + " .value").text(content[i]);
@@ -78,12 +78,46 @@ function fillLink(item, link) {
 	element.attr("href", link);
 }
 
+function fillInRow(formattedData, selector, elements) {
+	var meeting = $(".meeting." + selector);
 
-function processData(meetingsRequest, meetingsV2Request) {
+	for (var day in formattedData) {
+		var date = new Date(day);
+		if (formattedData[day]["type"] !== selector) continue;
+		var item = meeting.clone();
+		
+		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }).toUpperCase());
+		fill(item, ".number", date.getDate());
+
+		var row = item.find(".row").clone();
+		item.find(".row").remove();
+		var specialEvent = formattedData[day]["special-event"];
+		fillLink(item, formattedData[day]["link"]);
+
+		if (specialEvent !== undefined) {
+			row = row.filter(".special-event").clone();
+			fill(row, ".section.special-event", specialEvent);
+			item.find(".rows").append(row);
+		} else {
+			var labels = formattedData[day]["labels"];
+			var assignments = formattedData[day]["assignments"];
+
+			for (const assignment in assignments) {
+				row.find(".section.special-event").remove();
+				fill(row, "." + assignment, assignments[assignment], labels[assignment]);
+				item.find(".rows").append(row);
+			}
+		}
+
+		item.show();
+		elements.set(date, item);
+	}
+}
+
+
+function processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest) {
 	var meetingsData = JSON.parse(meetingsRequest.responseText);
 	var formattedData = {};
-	var header = $(".header");
-	var event = $(".event");
 	var phoneLink = "https://wa.me/598";
 	var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 
@@ -104,6 +138,7 @@ function processData(meetingsRequest, meetingsV2Request) {
 				continue;
 			}
 			formattedData[date] = {
+				"type": "midweek",
 				"link": entry["BL".ord()],
 				"labels": {
 					"living-part-1": entry["AS".ord()],
@@ -155,13 +190,14 @@ function processData(meetingsRequest, meetingsV2Request) {
 					"student-assignment-1": [], 
 					"student-assignment-2": [], 
 					"student-assignment-3": [], 
-					"student-assignment-4": [], 
+					"student-assignment-4": [],
 				}
 			};
 		}
 	}
 
 	var meetingsV2Data = JSON.parse(meetingsV2Request.responseText);
+		
 	for (var i = 2; i < meetingsV2Data.values.length; i++) {
 		var entry = meetingsV2Data.values[i];
 		var day = entry["D".ord()];
@@ -179,6 +215,7 @@ function processData(meetingsRequest, meetingsV2Request) {
 				continue;
 			}
 			formattedData[date] = {
+				"type": "midweek",
 				"link": entry["BK".ord()],
 				"labels": {
 					"treasures-talk": entry["I".ord()],
@@ -189,8 +226,8 @@ function processData(meetingsRequest, meetingsV2Request) {
 					"student-assignment-3": entry["AD".ord()],
 					"student-assignment-4": entry["AI".ord()],
 					"student-talk": entry["AN".ord()],
-				 	"living-part-1": entry["AR".ord()],
-				 	"living-part-2": entry["AT".ord()],
+					"living-part-1": entry["AR".ord()],
+					"living-part-2": entry["AT".ord()],
 				},
 				"assignments": {
 					"chairman_A": entry["G".ord()],
@@ -202,20 +239,20 @@ function processData(meetingsRequest, meetingsV2Request) {
 					"teachers-discussion-1": entry["Q".ord()],
 					"teachers-discussion-2": entry["S".ord()],
 					"student-assignment-1": [ 
-					 	[ entry["U".ord()], entry["V".ord()] ], 
-					 	[ entry["W".ord()], entry["X".ord()] ]
+						[ entry["U".ord()], entry["V".ord()] ], 
+						[ entry["W".ord()], entry["X".ord()] ]
 					], 
 					"student-assignment-2": [ 
-					 	[ entry["Z".ord()], entry["AA".ord()] ], 
-					 	[ entry["AB".ord()], entry["AC".ord()] ]
+						[ entry["Z".ord()], entry["AA".ord()] ], 
+						[ entry["AB".ord()], entry["AC".ord()] ]
 					], 
 					"student-assignment-3": [ 
-					 	[ entry["AE".ord()], entry["AF".ord()] ], 
-					 	[ entry["AG".ord()], entry["AH".ord()] ]
+						[ entry["AE".ord()], entry["AF".ord()] ], 
+						[ entry["AG".ord()], entry["AH".ord()] ]
 					], 
 					"student-assignment-4": [ 
-					 	[ entry["AJ".ord()], entry["AK".ord()] ], 
-					 	[ entry["AL".ord()], entry["AM".ord()] ]
+						[ entry["AJ".ord()], entry["AK".ord()] ], 
+						[ entry["AL".ord()], entry["AM".ord()] ]
 					], 
 					"student-talk": [ entry["AO".ord()], entry["AP".ord()] ],
 					"living-part-1": entry["AS".ord()],
@@ -242,15 +279,60 @@ function processData(meetingsRequest, meetingsV2Request) {
 		}
 	}
 
+	var weekendMeetingsData = JSON.parse(weekendMeetingsRequest.responseText);
 
-	console.log(formattedData);
-	
+	for (var i = 2; i < weekendMeetingsData.values.length; i++) {
+		var entry = weekendMeetingsData.values[i];
+		var day = entry["B".ord()];
+		var splittedDay = day.split("/");
+		var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
+		if (date >= today && entry["E".ord()] != '') {
+			if (formattedData[date] === undefined) {
+				formattedData[date] = [];
+			}
+			if (isNaN(entry["D".ord()])) {
+				formattedData[date] = {
+					"special-event": entry["D".ord()],
+					"link": entry["Z".ord()],
+				};
+				continue;
+			}
+			formattedData[date] = {
+				"type": "weekend",
+				"link": entry["Z".ord()],
+				"labels": {
+					"public-talk": entry["H".ord()],
+					"watchtower": entry["K".ord()],
+				},
+				"assignments": {
+					"chairman": entry["E".ord()],
+					"public-talk": entry["F".ord()] + " (" + entry["I".ord()] + ")",
+					"watchtower": [ [ entry["L".ord()], entry["M".ord()] ] ],
+					"final-prayer": entry["O".ord()],
+					// ---
+					"multimedia": [ entry["P".ord()], entry["Q".ord()] ],
+					"hall": entry["U".ord()],
+					"attendants": [ entry["V".ord()], entry["W".ord()] ],
+					"parking": entry["X".ord()],
+					"stage": entry["T".ord()],
+					"microphones": [ [ entry["R".ord()], entry["S".ord()] ] ],
+					"cleaning": "Grupos " + entry["Y".ord()],
+				}
+			};
+		}
+	}
+
+	// console.log(formattedData);
+	var elements = new Map();
+	fillInRow(formattedData, "midweek", elements);
+	fillInRow(formattedData, "weekend", elements);
+	const orderedElements = sort(elements);
+	console.log(orderedElements);
 	var lastMonth = 0;
+	var header = $(".header");
 
-	for (var day in formattedData) {
+	for (const [day, element] of orderedElements) {
 		var date = new Date(day);
-		var item = event.clone();
-		
 		if (date.getMonth() != lastMonth) {
 			var month = header.clone();
 			fill(
@@ -262,40 +344,76 @@ function processData(meetingsRequest, meetingsV2Request) {
 			$("#table").append(month);
 			lastMonth = date.getMonth()
 		}
-		
-		fill(item, ".date", date.toLocaleString('es', {  weekday: 'long' }).toUpperCase());
-		fill(item, ".number", date.getDate());
 
-		var row = item.find(".row").clone();
-		item.find(".row").remove();
-		var specialEvent = formattedData[day]["special-event"];
-		fillLink(item, formattedData[day]["link"]);
-
-		if (specialEvent !== undefined) {
-			row = row.filter(".special-event").clone();
-			fill(row, ".section.special-event", specialEvent);
-			item.find(".rows").append(row);
-		} else {
-			var labels = formattedData[day]["labels"];
-			var assignments = formattedData[day]["assignments"];
-
-			for (const assignment in assignments) {
-				row.find(".section.special-event").hide();
-				fill(row, "." + assignment, assignments[assignment], labels[assignment]);
-				item.find(".rows").append(row);
-			}
-		}
-
-		item.show();
-		$("#table").append(item);
-    	item.find(".row.tasks .assignee:visible:last").addClass("last");
-		$(".lds-dual-ring").slideUp();
+		$("#table").append(element);
 	}
+		
+	$(".lds-dual-ring").slideUp();
+}
+
+function sort(map) {
+	let keys = Array.from(map.keys())
+		.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+	
+	let sorted = new Map();
+	for (let key of keys) { 
+		sorted.set(key, map.get(key));
+	}
+	return sorted;
+}
+
+function addOnFilterClickedListener(assignmentsToggle) {
+	const name = 'Ismael Machado';
+	
+	$(".assignee-filter").on(
+		"click", 
+		function() {
+			if (assignmentsToggle.active) {
+				$(".event, .section, .assignee").slideDown();
+				$(".event:first").hide();
+			} else {
+				$(".event")
+					.filter(function(index) {
+						var filteredRows = $(".row > .assignee", this).filter(function(index) {
+							if ($(".value:contains('" + name + "')", this).length > 0) {
+								return false;
+							}
+							return true;
+						});
+						
+						var filteredSections = $(".section", this).filter(function(index) {
+							var filteredAssignees = $(".assignee", this).filter(function(index) {
+								if ($(".value:contains('" + name + "')", this).length > 0) {
+									return false;
+								}
+								return true;
+							});
+							if ($(".assignee", this).length !== filteredAssignees.length) {
+								filteredAssignees.slideUp();
+								return false;
+							}
+							return true;
+						});
+						if ($(".row > .assignee", this).length !== filteredRows.length 
+							|| $(".section", this).length !== filteredSections.length) {
+							filteredRows.slideUp();
+							filteredSections.slideUp();
+							return false;
+						}
+						return true;
+					})
+					.slideUp();
+			}
+			assignmentsToggle.active = !assignmentsToggle.active;
+		}
+	);
 }
 
 function meetings() {
 	var meetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
 	var meetingsV2Url = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio%202024?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+	var weekendMeetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/Fin%20de%20semana?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+	var assignmentsToggle = { active: false };
 	
 	var meetingsRequest = new XMLHttpRequest();
 	meetingsRequest.open('GET', meetingsUrl);
@@ -303,7 +421,13 @@ function meetings() {
 		var meetingsV2Request = new XMLHttpRequest();
 		meetingsV2Request.open('GET', meetingsV2Url);
 		meetingsV2Request.onload = function() {
-			processData(meetingsRequest, meetingsV2Request);
+			var weekendMeetingsRequest = new XMLHttpRequest();
+			weekendMeetingsRequest.open('GET', weekendMeetingsUrl);
+			weekendMeetingsRequest.onload = function() {
+				processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest);
+				addOnFilterClickedListener(assignmentsToggle);
+			}
+			weekendMeetingsRequest.send();
 		}
 		meetingsV2Request.send();
 	}
