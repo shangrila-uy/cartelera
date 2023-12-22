@@ -124,12 +124,17 @@ body {}
 }
 
 .meeting .assignee.first,
-.meeting .section.tasks h2 {
+.meeting .section.tasks h2,
+.meeting .section h2.first {
 	border-radius: 10px 10px 0px 0px;
 }
 
 .meeting .assignee.last {
 	border-radius: 0px 0px 10px 10px;
+}
+
+.meeting .assignee.first.last {
+	border-radius: 10px 10px 10px 10px;
 }
 
 .meeting .assignee .room {

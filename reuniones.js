@@ -369,10 +369,24 @@ function addOnFilterClickedListener(assignmentsToggle) {
 		"click", 
 		function() {
 			if (assignmentsToggle.active) {
-				$(".event, .section, .assignee").slideDown();
-				$(".event:first").hide();
+				$(".meeting, .section, .assignee").slideDown();
+				$(".meeting").eq(0).hide();
+				$(".meeting").eq(1).hide();
+				$(".meeting").eq(2).hide();
+
+				$(".row .section h2.first").filter(function() {
+					return !$(this).parent().hasClass("tasks");
+				}).removeClass("first");
+				$(".row").each(function() { 
+				    var assignee = $(".assignee", this);
+				    assignee
+				        .filter(function (index) {
+				            return index < assignee.length - 1;
+				        })
+				        .removeClass("last");
+				});				
 			} else {
-				$(".event")
+				$(".meeting")
 					.filter(function(index) {
 						var filteredRows = $(".row > .assignee", this).filter(function(index) {
 							if ($(".value:contains('" + name + "')", this).length > 0) {
@@ -403,6 +417,11 @@ function addOnFilterClickedListener(assignmentsToggle) {
 						return true;
 					})
 					.slideUp();
+
+				setTimeout(function() {
+					$(".row:visible .section:visible > *:visible:first-child, .row:visible .assignee:visible:first-child").addClass("first");
+					$(".row:visible .section:visible .assignee:visible, .row:visible .assignee:visible").addClass("last");
+				}, 400);				
 			}
 			assignmentsToggle.active = !assignmentsToggle.active;
 		}
