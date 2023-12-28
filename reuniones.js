@@ -335,6 +335,17 @@ function sort(map) {
     return sorted;
 }
 
+function toggleFilterButton(active, name) {
+    $(".assignee-filter").toggleClass("active");
+    if (active) {
+        $(".assignee-filter .icon").text("\uE6F0");
+        $(".assignee-filter .friend").text(name);        
+    } else {
+        $(".assignee-filter .icon").text("\uE62F");
+        $(".assignee-filter .friend").text("");
+    }
+}
+
 function onFriendClickedListener(name, filterData) {
     if (filterData.filterActive) {
         $(".meeting, .section, .assignee").slideDown();
@@ -389,6 +400,7 @@ function onFriendClickedListener(name, filterData) {
         }, 400);
 
         filterData.filterActive = true;
+        toggleFilterButton(true, name);
         toggleFilterPopup(filterData);
     }
 }
@@ -405,12 +417,43 @@ function toggleFilterPopup(filterData) {
 
 function onFilterClickedListener(filterData) {
     if (filterData.filterActive) {
+        toggleFilterButton(false);
         onFriendClickedListener("", filterData);
         filterData.popupVisible = false;
     } else {
+        $("#autocomplete").val("");
+        $(".friend-list li").show();
+        $(".search-field a").addClass("search")
+            .text("\uE67D");
         toggleFilterPopup(filterData);
         filterData.popupVisible = !filterData.popupVisible;
     }
+}
+
+function getInitials(fullName) {
+    const names = fullName.split(" ");
+    return names[0][0] + names [names.length - 1][0];
+}
+
+function renderAssignee(filterData, assignee) {
+    const initials = $("<span>")
+        .addClass("initials")
+        .text(getInitials(assignee));
+    const circle = $("<span>")
+        .addClass("circle")
+        .append(initials);
+    const name = $("<span>")
+        .addClass("name")
+        .text(assignee);
+    const link = $("<a>").attr("href", "#")
+        .append(circle)
+        .append(name)
+        .on("click", function() {
+            onFriendClickedListener(assignee, filterData);
+        }
+    );
+    
+    return $("<li>").append(link)
 }
 
 function initFilters(filterData) {
@@ -420,26 +463,72 @@ function initFilters(filterData) {
     assignmentsRequest.open('GET', assignmentsUrl);
     assignmentsRequest.onload = function() {
         const assignmentsData = JSON.parse(assignmentsRequest.responseText);
-        const ul = $("<ul>").appendTo($("<div>")
-            .addClass("friends")
-            .prependTo(".popup"));
+        const assignees = [];
 
         for (const row in assignmentsData.values) {
             if (row == 0) continue;
 
-            const assignee = assignmentsData.values[row][0];
-            ul.append($("<li>")
-                .append(
-                    $("<a>").attr("href", "#")
-                        .css("display", "block")
-                        .text(assignee)
-                        .on("click", function() {
-                            onFriendClickedListener(assignee, filterData);
-                        }
-                    )
-                )
-            );
+            assignees.push(assignmentsData.values[row][0]);
         }
+        
+        const input = $("<input>")
+            .attr("type", "text")
+            .attr("name", "country")
+            .attr("id", "autocomplete")
+            .attr("placeholder", "Nombre");
+        const icon = $("<a>")
+            .attr("href", "#")
+            .addClass("search")
+            .text("\uE67D");
+        const searchField = $("<div>")
+            .addClass("search-field")
+            .append(icon)
+            .append(input);
+        const ul = $("<ul>");
+        const friendList = $("<div>")
+            .addClass("friend-list")
+            .append(ul);
+        const friends = $("<div>")
+            .addClass("friends")
+            .append(searchField)
+            .append(friendList)
+            .appendTo(".popup");
+
+        for (const i in assignees) {
+            const assignee = assignees[i];
+            const item = renderAssignee(filterData, assignee);
+            item.appendTo(ul);
+        }
+
+        input.on("change paste keyup", function() {
+            const value = input.val();
+            
+            if (value === "") {
+                icon.text("\uE67D")
+                    .addClass("search")
+                    .off("click");
+                ul.find("li").show();    
+                return;
+            }
+
+            icon.text("\uE6F0")
+                .removeClass("search")
+                .on("click", function() {
+                    input.val("");
+                    input.trigger("change");
+                });
+            
+            ul.find("li").hide();
+            ul
+                .find("li")
+                .filter(function(index) {
+                    return $(".name", this)
+                        .text()
+                        .toLowerCase()
+                        .startsWith(value.toLowerCase());
+                })
+                .show();
+        });
     }
     assignmentsRequest.send();
 }

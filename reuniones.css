@@ -27,21 +27,33 @@ body {}
 }
 
 .header .month {
-	margin: 0px 5%;
+	margin: 0px auto;
 	display: flex;
+    width: 90%;
 }
 
 .header .assignee-filter {
-    font-family: jw-icons-external;
     display: inline-flex;
     font-size: 20px;
     color: #FFFFFF;
     height: 20px;
-    width: 20px;
     font-weight: normal;
     flex-direction: row;
     margin-left: auto;
     text-decoration: none;
+}
+
+.header .assignee-filter.active {
+	border-radius: 16px;
+	border: solid 1px #FFFFFF;
+	font-size: 14px;
+	letter-spacing: 1px;
+	padding: 4px 6px 0px 8px;
+}
+
+.header .assignee-filter .icon {
+	padding-left: 4px;
+    font-family: jw-icons-external;
 }
 
 .meeting {
@@ -249,12 +261,13 @@ body {}
 .popup {
   display: none;
   position: fixed;
-  left: 30%;
-  height: 100%;
+  left: 25%;
+  height: 95%;
   background: #FFF;
   z-index: 20;
-  top: 0px;
-	padding: 0px 10px;
+  top: 2%;
+  width: 275px;
+  border-radius: 10px;
 }
 
 .popup:after {
@@ -277,23 +290,91 @@ body {}
   right: 0;
   background: #FFF;
   z-index: -1;
+  border-radius: 10px;
 }
 
-.friends {
-  overflow-y: scroll;
-  height: 100%;
+.friends {height: 100%;}
+
+.friend-list {
+	overflow-y: scroll;
+	height: 93%;
 }
 
-.friends ul {
+.friend-list ul {
 	display: inline-flex;
 	flex-direction: column;
+	width: 100%;
 }
 
-.friends ul li {
-	padding: 20px 30px;
+.friend-list ul li {
 	text-align: start;
 	list-style: none;
 }
+
+.friend-list ul li a {
+	display: block;
+	padding: 10px 20px;
+	text-decoration: none;
+	color: #626262;
+}
+
+.friend-list ul li a:hover {
+	background: #EEE;
+	color: #000;
+}
+
+.friend-list ul li a:hover .circle {
+	background: #666;
+}
+
+.friend-list .circle {
+	display: inline-block;
+	background: #AAAAAA;
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	margin-right: 18px
+}
+
+.friend-list .circle .initials {
+	display: inline-block;
+	font-size: 14px;
+	color: #FFF;
+	vertical-align: middle;
+	padding: 25% 0%;
+	width: 100%;
+	text-align: center;
+}
+
+.search-field {
+	padding: 16px 20px 8px 20px;
+	position: relative;
+}
+
+.search-field input {
+	width: 90%;
+	padding: 8px 12px;
+	font-size: 16px;
+	border: 1px solid #BBB;
+	border-radius: 20px;
+	padding-right: 35px !important;
+	width: 100%;
+	margin: 0em !important;
+	box-sizing: border-box;
+}
+
+.search-field a {
+    font-family: jw-icons-external;
+    position: absolute;
+    right: 0px;
+    padding: 9px 36px 9px 10px;
+    text-decoration: none;
+}
+
+.search-field a.search {
+    pointer-events: none;
+}
+
 
 @media screen and (min-width:750px) {
 
