@@ -126,6 +126,11 @@ body {}
     margin: 2px 0px;
 }
 
+.meeting .assignee .info {
+    font-size: 14px;
+    color: #626262;
+}
+
 .meeting .assignee .value {
     margin-top: 4px;
 }

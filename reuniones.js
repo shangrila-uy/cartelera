@@ -6,14 +6,31 @@ String.prototype.ord = function() {
     }
 
     return (index + 1) * 26 + this.charCodeAt(1) - 65;
-}
-;
+};
 
-function fill(item, selector, content, label) {
+String.prototype.parse = function() {
+    return [...this.matchAll(/([^()]+)(\(.+\).*(\(.+\))?)/g)][0]
+};
+
+String.prototype.label = function() {
+	const matches = this.parse();
+    return matches !== undefined ? matches[1] : this;
+};
+
+String.prototype.info = function() {
+	const matches = this.parse();
+    return matches !== undefined ? matches[2] : this;
+};
+
+function fill(item, selector, content, label, info) {
     var field = item.find(selector);
 
     if (label !== undefined) {
         field.find(".label").text(label);
+    }
+
+    if (info !== undefined) {
+        field.find(".info").text(info);
     }
 
     if (content == null || content === '') {
@@ -103,12 +120,14 @@ function fillInRow(formattedData, selector, elements) {
             fill(row, ".section.special-event", specialEvent);
             item.find(".rows").append(row);
         } else {
-            var labels = formattedData[day]["labels"];
-            var assignments = formattedData[day]["assignments"];
+            const labels = formattedData[day]["labels"];
+			const info = formattedData[day]["info"];
+            const assignments = formattedData[day]["assignments"];
 
             for (const assignment in assignments) {
+				const assignmentInfo = info !== undefined ? info[assignment] : undefined; 
                 row.find(".section.special-event").remove();
-                fill(row, "." + assignment, assignments[assignment], labels[assignment]);
+                fill(row, "." + assignment, assignments[assignment], labels[assignment], assignmentInfo);
                 item.find(".rows").append(row);
             }
         }
@@ -118,79 +137,14 @@ function fillInRow(formattedData, selector, elements) {
     }
 }
 
-function processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest) {
-    var meetingsData = JSON.parse(meetingsRequest.responseText);
-    var formattedData = {};
-    var phoneLink = "https://wa.me/598";
-    var today = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
-
-    for (var i = 55; i < meetingsData.values.length; i++) {
-        var entry = meetingsData.values[i];
-        var day = entry["D".ord()];
-        var splittedDay = day.split(" ")[1].split("/");
-        var date = new Date(2023,splittedDay[1] - 1,splittedDay[0]);
-        if (date >= today && entry["E".ord()] != '') {
-            if (formattedData[date] === undefined) {
-                formattedData[date] = [];
-            }
-            if (isNaN(entry["E".ord()])) {
-                formattedData[date] = {
-                    "special-event": entry["E".ord()],
-                    "link": entry["BL".ord()],
-                };
-                continue;
-            }
-            formattedData[date] = {
-                "type": "midweek",
-                "link": entry["BL".ord()],
-                "labels": {
-                    "living-part-1": entry["AS".ord()],
-                    "living-part-2": entry["AU".ord()],
-                },
-                "assignments": {
-                    "chairman_A": entry["F".ord()],
-                    "counselor_B": entry["G".ord()],
-                    "treasures-talk": entry["I".ord()],
-                    "pearls": entry["K".ord()],
-                    "bible-reading": [entry["M".ord()], entry["N".ord()]],
-                    "teachers-video": entry["O".ord()],
-                    "initial-call-1": [[entry["Q".ord()], entry["R".ord()]], [entry["S".ord()], entry["T".ord()]]],
-                    "initial-call-2": [[entry["V".ord()], entry["W".ord()]], [entry["X".ord()], entry["Y".ord()]]],
-                    "return-visit-1": [[entry["AA".ord()], entry["AB".ord()]], [entry["AC".ord()], entry["AD".ord()]]],
-                    "return-visit-2": [[entry["AF".ord()], entry["AG".ord()]], [entry["AH".ord()], entry["AI".ord()]]],
-                    "bible-study": [[entry["AK".ord()], entry["AL".ord()]], [entry["AM".ord()], entry["AN".ord()]]],
-                    "student-talk": [entry["AP".ord()], entry["AQ".ord()]],
-                    "living-part-1": entry["AT".ord()],
-                    "living-part-2": entry["AV".ord()],
-                    "congregation-study": [[entry["AX".ord()], entry["AY".ord()]]],
-                    "final-prayer": entry["BA".ord()],
-                    // ---
-                    "multimedia": [entry["BB".ord()], entry["BC".ord()]],
-                    "hall": entry["BG".ord()],
-                    "attendants": [entry["BH".ord()], entry["BI".ord()]],
-                    "parking": entry["BJ".ord()],
-                    "stage": entry["BF".ord()],
-                    "microphones": [[entry["BD".ord()], entry["BE".ord()]]],
-                    "cleaning": "Grupos " + entry["BK".ord()],
-                    // ---
-                    "teachers-discussion-1": "",
-                    "teachers-discussion-2": "",
-                    "student-assignment-1": [],
-                    "student-assignment-2": [],
-                    "student-assignment-3": [],
-                    "student-assignment-4": [],
-                }
-            };
-        }
-    }
-
-    var meetingsV2Data = JSON.parse(meetingsV2Request.responseText);
+function readMidweekSheet(meetingsRequest, today, formattedData) {
+	var meetingsV2Data = JSON.parse(meetingsRequest.responseText);
 
     for (var i = 2; i < meetingsV2Data.values.length; i++) {
         var entry = meetingsV2Data.values[i];
         var day = entry["D".ord()];
         var splittedDay = day.split("/");
-        var date = new Date("20" + splittedDay[2],splittedDay[1] - 1,splittedDay[0]);
+        var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
         if (date >= today && entry["F".ord()] != '') {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
@@ -206,62 +160,71 @@ function processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest)
                 "type": "midweek",
                 "link": entry["BK".ord()],
                 "labels": {
-                    "treasures-talk": entry["I".ord()],
-                    "teachers-discussion-1": entry["P".ord()],
-                    "teachers-discussion-2": entry["R".ord()],
-                    "student-assignment-1": entry["T".ord()],
-                    "student-assignment-2": entry["Y".ord()],
-                    "student-assignment-3": entry["AD".ord()],
-                    "student-assignment-4": entry["AI".ord()],
-                    "student-talk": entry["AN".ord()],
-                    "living-part-1": entry["AR".ord()],
-                    "living-part-2": entry["AT".ord()],
+                    "treasures-talk": 			entry["I".ord()].label(),
+                    "teachers-discussion-1": 	entry["P".ord()].label(),
+                    "teachers-discussion-2": 	entry["R".ord()].label(),
+                    "student-assignment-1": 	entry["T".ord()].label(),
+                    "student-assignment-2": 	entry["Y".ord()].label(),
+                    "student-assignment-3": 	entry["AD".ord()].label(),
+                    "student-assignment-4": 	entry["AI".ord()].label(),
+                    "student-talk": 			entry["AN".ord()].label(),
+                    "living-part-1": 			entry["AR".ord()].label(),
+                    "living-part-2": 			entry["AT".ord()].label(),
+                    "congregation-study": 		entry["AV".ord()].label(),
                 },
+				"info" : {
+                    "treasures-talk": 			entry["I".ord()].info(),
+                    "teachers-discussion-1": 	entry["P".ord()].info(),
+                    "teachers-discussion-2": 	entry["R".ord()].info(),
+                    "student-assignment-1": 	entry["T".ord()].info(),
+                    "student-assignment-2": 	entry["Y".ord()].info(),
+                    "student-assignment-3": 	entry["AD".ord()].info(),
+                    "student-assignment-4": 	entry["AI".ord()].info(),
+                    "student-talk": 			entry["AN".ord()].info(),
+                    "living-part-1": 			entry["AR".ord()].info(),
+                    "living-part-2": 			entry["AT".ord()].info(),
+                    "congregation-study": 		entry["AV".ord()].info(),
+				},
                 "assignments": {
-                    "chairman_A": entry["G".ord()],
-                    "counselor_B": entry["H".ord()],
-                    "treasures-talk": entry["J".ord()],
-                    "pearls": entry["L".ord()],
-                    "bible-reading": [entry["N".ord()], entry["O".ord()]],
+                    "chairman_A": 				entry["G".ord()],
+                    "counselor_B": 				entry["H".ord()],
+                    "treasures-talk": 			entry["J".ord()],
+                    "pearls": 					entry["L".ord()],
+                    "bible-reading": 			[entry["N".ord()], entry["O".ord()]],
                     // ---
-                    "teachers-discussion-1": entry["Q".ord()],
-                    "teachers-discussion-2": entry["S".ord()],
-                    "student-assignment-1": [[entry["U".ord()], entry["V".ord()]], [entry["W".ord()], entry["X".ord()]]],
-                    "student-assignment-2": [[entry["Z".ord()], entry["AA".ord()]], [entry["AB".ord()], entry["AC".ord()]]],
-                    "student-assignment-3": [[entry["AE".ord()], entry["AF".ord()]], [entry["AG".ord()], entry["AH".ord()]]],
-                    "student-assignment-4": [[entry["AJ".ord()], entry["AK".ord()]], [entry["AL".ord()], entry["AM".ord()]]],
-                    "student-talk": [entry["AO".ord()], entry["AP".ord()]],
-                    "living-part-1": entry["AS".ord()],
-                    "living-part-2": entry["AU".ord()],
-                    "congregation-study": [[entry["AW".ord()], entry["AX".ord()]]],
-                    "final-prayer": entry["AZ".ord()],
+                    "teachers-discussion-1": 	entry["Q".ord()],
+                    "teachers-discussion-2": 	entry["S".ord()],
+                    "student-assignment-1": 	[[entry["U".ord()], entry["V".ord()]], [entry["W".ord()], entry["X".ord()]]],
+                    "student-assignment-2": 	[[entry["Z".ord()], entry["AA".ord()]], [entry["AB".ord()], entry["AC".ord()]]],
+                    "student-assignment-3": 	[[entry["AE".ord()], entry["AF".ord()]], [entry["AG".ord()], entry["AH".ord()]]],
+                    "student-assignment-4": 	[[entry["AJ".ord()], entry["AK".ord()]], [entry["AL".ord()], entry["AM".ord()]]],
+                    "student-talk": 			[entry["AO".ord()], entry["AP".ord()]],
+                    "living-part-1": 			entry["AS".ord()],
+                    "living-part-2": 			entry["AU".ord()],
+                    "congregation-study": 		[[entry["AW".ord()], entry["AX".ord()]]],
+                    "final-prayer": 			entry["AZ".ord()],
                     // ---
-                    "multimedia": [entry["BA".ord()], entry["BB".ord()]],
-                    "hall": entry["BF".ord()],
-                    "attendants": [entry["BG".ord()], entry["BH".ord()]],
-                    "parking": entry["BI".ord()],
-                    "stage": entry["BE".ord()],
-                    "microphones": [[entry["BC".ord()], entry["BD".ord()]]],
-                    "cleaning": "Grupos " + entry["BJ".ord()],
-                    // --- Legacy
-                    "teachers-video": "",
-                    "initial-call-1": [],
-                    "initial-call-2": [],
-                    "return-visit-1": [],
-                    "return-visit-2": [],
-                    "bible-study": [],
+                    "multimedia": 				[entry["BA".ord()], entry["BB".ord()]],
+                    "hall": 					entry["BF".ord()],
+                    "attendants": 				[entry["BG".ord()], entry["BH".ord()]],
+                    "parking": 					entry["BI".ord()],
+                    "stage": 					entry["BE".ord()],
+                    "microphones": 				[[entry["BC".ord()], entry["BD".ord()]]],
+                    "cleaning": 				"Grupos " + entry["BJ".ord()],
                 }
             };
         }
     }
+}
 
-    var weekendMeetingsData = JSON.parse(weekendMeetingsRequest.responseText);
+function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
+	var weekendMeetingsData = JSON.parse(weekendMeetingsRequest.responseText);
 
     for (var i = 2; i < weekendMeetingsData.values.length; i++) {
         var entry = weekendMeetingsData.values[i];
         var day = entry["B".ord()];
         var splittedDay = day.split("/");
-        var date = new Date("20" + splittedDay[2],splittedDay[1] - 1,splittedDay[0]);
+        var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
         if (date >= today && entry["E".ord()] != '') {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
@@ -282,7 +245,7 @@ function processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest)
                 },
                 "assignments": {
                     "chairman": entry["E".ord()],
-                    "public-talk": entry["F".ord()] + " (" + entry["I".ord()] + ")",
+                    "public-talk": entry["F".ord()] != "" ? entry["F".ord()] + " (" + entry["I".ord()] + ")" : "",
                     "watchtower": [[entry["L".ord()], entry["M".ord()]]],
                     "final-prayer": entry["O".ord()],
                     // ---
@@ -297,13 +260,25 @@ function processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest)
             };
         }
     }
+}
 
-    // console.log(formattedData);
+function processData(meetingsRequest, weekendMeetingsRequest) {
+    var formattedData = {};
+    var phoneLink = "https://wa.me/598";
+    var today = new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+
+	readMidweekSheet(meetingsRequest, today, formattedData);
+    readWeekendSheet(weekendMeetingsRequest, today, formattedData);
+    
+    console.log(formattedData);
+    
     var elements = new Map();
     fillInRow(formattedData, "midweek", elements);
     fillInRow(formattedData, "weekend", elements);
     const orderedElements = sort(elements);
-    console.log(orderedElements);
+    
+    // console.log(orderedElements);
+    
     var lastMonth = 0;
     var header = $(".header");
 
@@ -534,8 +509,7 @@ function initFilters(filterData) {
 }
 
 function meetings() {
-    var meetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
-    var meetingsV2Url = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio%202024?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+    var meetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio%202024?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
     var weekendMeetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/Fin%20de%20semana?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
     var filterData = {
         popupVisible: false,
@@ -545,20 +519,15 @@ function meetings() {
     var meetingsRequest = new XMLHttpRequest();
     meetingsRequest.open('GET', meetingsUrl);
     meetingsRequest.onload = function() {
-        var meetingsV2Request = new XMLHttpRequest();
-        meetingsV2Request.open('GET', meetingsV2Url);
-        meetingsV2Request.onload = function() {
-            var weekendMeetingsRequest = new XMLHttpRequest();
-            weekendMeetingsRequest.open('GET', weekendMeetingsUrl);
-            weekendMeetingsRequest.onload = function() {
-                processData(meetingsRequest, meetingsV2Request, weekendMeetingsRequest);
-                $(".assignee-filter").on("click", function() {
-                    onFilterClickedListener(filterData);
-                });
-            }
-            weekendMeetingsRequest.send();
-        }
-        meetingsV2Request.send();
+		var weekendMeetingsRequest = new XMLHttpRequest();
+		weekendMeetingsRequest.open('GET', weekendMeetingsUrl);
+		weekendMeetingsRequest.onload = function() {
+			processData(meetingsRequest, weekendMeetingsRequest);
+			$(".assignee-filter").on("click", function() {
+				onFilterClickedListener(filterData);
+			});
+		}
+		weekendMeetingsRequest.send();
     }
     meetingsRequest.send();
 
