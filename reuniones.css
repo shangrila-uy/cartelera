@@ -266,7 +266,7 @@ body {}
 .popup {
   display: none;
   position: fixed;
-  left: 25%;
+  left: 32%;
   height: 95%;
   background: #FFF;
   z-index: 20;
