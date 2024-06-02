@@ -17,26 +17,25 @@
         }
         
         h1 {
-        	margin-bottom: 30px;
+        	margin-top: 20px;
+        	margin-bottom: 40px;
         }
         
         .contenido {
-            width: 97%;
-            margin: auto;
+            margin: 0 16px;
         }
         
         li {
-            margin: auto;
             list-style: none;
             position: relative;
         }
         
         ul.card {
             padding: 0px;
-            width: auto;
             display: flex;
+            gap: 20px;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: flex-start;
             flex-wrap: wrap;
         }
         
@@ -108,8 +107,11 @@
                 flex-direction: row;
                 justify-content: flex-start;
             }
-            .card li:before,
-            .card li:after {
+           ul.card {
+                gap: 0px;
+            }
+            ul.card li:before,
+            ul.card li:after {
                 top: 52%;
             }
         }
