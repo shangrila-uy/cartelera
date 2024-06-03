@@ -314,7 +314,7 @@ function toggleFilterButton(active, name) {
     $(".assignee-filter").toggleClass("active");
     if (active) {
         $(".assignee-filter .icon").text("\uE6F0");
-        $(".assignee-filter .friend").text(name);        
+        $(".assignee-filter .friend").text(name);
     } else {
         $(".assignee-filter .icon").text("\uE62F");
         $(".assignee-filter .friend").text("");
@@ -387,6 +387,7 @@ function toggleFilterPopup(filterData) {
     } else {
         $(".popup").css("display", "block");
         $(".header").css("position", "static");
+		$("#autocomplete").focus();
     }
 }
 
@@ -398,11 +399,17 @@ function onFilterClickedListener(filterData) {
     } else {
         $("#autocomplete").val("");
         $(".friend-list li").show();
-        $(".search-field a").addClass("search")
+        $(".search-field a")
+			.addClass("search")
             .text("\uE67D");
         toggleFilterPopup(filterData);
         filterData.popupVisible = !filterData.popupVisible;
     }
+}
+
+function onFilterClosed(filterData) {
+	toggleFilterPopup(filterData);
+	filterData.popupVisible = false;
 }
 
 function getInitials(fullName) {
@@ -455,6 +462,16 @@ function initFilters(filterData) {
             .attr("href", "#")
             .addClass("search")
             .text("\uE67D");
+		const close = $("<a>")
+            .attr("href", "#")
+            .addClass("close")
+            .text("\uE6F1")
+			.on("click", function() {
+				onFilterClosed(filterData);
+			});
+		const topbar = $("<div>")
+            .addClass("topbar")
+			.append(close);
         const searchField = $("<div>")
             .addClass("search-field")
             .append(icon)
@@ -465,6 +482,7 @@ function initFilters(filterData) {
             .append(ul);
         const friends = $("<div>")
             .addClass("friends")
+			.append(topbar)
             .append(searchField)
             .append(friendList)
             .appendTo(".popup");
