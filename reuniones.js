@@ -149,9 +149,9 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
             }
-            if (isNaN(entry["H".ord()])) {
+            if (!entry["H".ord()].includes("Canción")) {
                 formattedData[date] = {
-                    "special-event": entry["F".ord()],
+                    "special-event": entry["H".ord()],
                     "link": entry["BM".ord()],
                 };
                 continue;
@@ -187,6 +187,7 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
                     "congregation-study": 		entry["AX".ord()].info(),
 				},
                 "assignments": {
+					"song_1":					entry["H".ord()],
                     "chairman_A": 				entry["I".ord()],
                     "counselor_B": 				entry["J".ord()],
                     "treasures-talk": 			entry["L".ord()],
@@ -200,9 +201,11 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
                     "student-assignment-3": 	[[entry["AG".ord()], entry["AH".ord()]], [entry["AI".ord()], entry["AJ".ord()]]],
                     "student-assignment-4": 	[[entry["AL".ord()], entry["AM".ord()]], [entry["AN".ord()], entry["AO".ord()]]],
                     "student-talk": 			[entry["AQ".ord()], entry["AR".ord()]],
+					"song_2":					entry["AS".ord()],
                     "living-part-1": 			entry["AU".ord()],
                     "living-part-2": 			entry["AW".ord()],
                     "congregation-study": 		[[entry["AY".ord()], entry["AZ".ord()]]],
+					"song_3":					entry["BA".ord()],
                     "final-prayer": 			entry["BB".ord()],
                     // ---
                     "multimedia": 				[entry["BC".ord()], entry["BD".ord()]],

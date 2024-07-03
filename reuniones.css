@@ -115,10 +115,11 @@ body {}
     color: #942926;
 }
 
-.meeting .value {
-    display: block;
+.meeting .song .value {
+    display: inline;
 }
 
+.meeting .song, 
 .meeting .assignee {
     font-size: 16px;
     background: #EEE;
@@ -126,6 +127,7 @@ body {}
     margin: 2px 0px;
 }
 
+.meeting .song .info,
 .meeting .assignee .info {
     font-size: 14px;
     color: #626262;
@@ -140,7 +142,7 @@ body {}
 	flex-direction: row;
 }
 
-.meeting .assignee.first,
+.meeting .song.first,
 .meeting .section.tasks h2,
 .meeting .section h2.first {
 	border-radius: 10px 10px 0px 0px;
