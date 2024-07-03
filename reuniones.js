@@ -161,7 +161,7 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
                 "link": entry["BM".ord()],
                 "labels": {
                     "treasures-talk": 			entry["K".ord()].label(),
-                    "teachers-discussion-1": 	entry["Q".ord()].label(),
+                    "teachers-discussion-1": 	entry["R".ord()].label(),
                     "teachers-discussion-2": 	entry["T".ord()].label(),
                     "student-assignment-1": 	entry["V".ord()].label(),
                     "student-assignment-2": 	entry["AA".ord()].label(),
