@@ -12,6 +12,10 @@
 
 body {}
 
+a {
+	text-decoration: none;
+}
+
 .header {
     background: #033C69;
     color: #FFFFFF;
@@ -101,17 +105,20 @@ body {}
     font-weight: bold;
 }
 
-.meeting .row .treasures .label,
-.meeting .row .public-talk .label{
+.meeting .row .treasures .label, 
+.meeting .row .treasures .label a,
+.meeting .row .public-talk .label {
     color: #2a6b77;
 }
 
 .meeting .row .teachers .label,
-.meeting .row .watchtower-study .label{
+.meeting .row .teachers .label a,
+.meeting .row .watchtower-study .label {
     color: #9b6d17;
 }
 
-.meeting .row .christian .label {
+.meeting .row .christian .label,
+.meeting .row .christian .label a {
     color: #942926;
 }
 
@@ -125,6 +132,10 @@ body {}
     margin: 4px 0px;
     border-radius: 10px;
     border: 1px solid #DDDDDD;
+}
+
+.meeting .bible-chapters a {
+	color: #2878bb;
 }
 
 .meeting .song, 

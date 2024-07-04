@@ -1,3 +1,5 @@
+const WOL_SEARCH = "https://wol.jw.org/es/wol/l/r4/lp-s?q=";
+
 String.prototype.ord = function() {
     var index = this.charCodeAt(0) - 65;
 
@@ -22,11 +24,25 @@ String.prototype.info = function() {
     return matches !== undefined ? matches[2] : this;
 };
 
-function fill(item, selector, content, label, info) {
+function addLink(element, text, link) {
+	element.text("")
+		.append(
+			$("<a>")
+				.attr("href", link)
+				.attr("target", "_blank")
+				.text(text)
+		);
+}
+
+function fill(item, selector, content, label, info, link) {
     var field = item.find(selector);
 
     if (label !== undefined) {
-        field.find(".label").text(label);
+		if (link !== undefined) {
+			addLink(field.find(".label"), label, link);
+		} else {
+	        field.find(".label").text(label);
+		}
     }
 
     if (info !== undefined) {
@@ -34,11 +50,6 @@ function fill(item, selector, content, label, info) {
     }
 
     if (content == null || content === '') {
-        if (selector === '.counselor_B') {
-            item.find('.counselor').remove();
-            item.find('.chairman .room').remove();
-            return;
-        }
         field.remove();
         return;
     }
@@ -111,8 +122,7 @@ function fillSpecialEvents(formattedData, elements) {
 	        fill(item, ".number", date.getDate());
 	
 	        var specialEvent = formattedData[day]["special-event"];
-			const link = formattedData[day]["link"];
-			fillLink(item, formattedData[day]["link"]);
+			fillLink(item, formattedData[day]["stream"]);
 
             fill(item, ".section.special-event", specialEvent);
 	        item.show();
@@ -137,16 +147,17 @@ function fillInRow(formattedData, selector, elements) {
 
         var row = item.find(".row").clone();
         item.find(".row").remove();
-        fillLink(item, formattedData[day]["link"]);
+        fillLink(item, formattedData[day]["stream"]);
 
 		const labels = formattedData[day]["labels"];
 		const info = formattedData[day]["info"];
 		const assignments = formattedData[day]["assignments"];
+		const link = formattedData[day]["links"];
 
 		for (const assignment in assignments) {
 			const assignmentInfo = info !== undefined ? info[assignment] : undefined; 
-			row.find(".section.special-event").remove();
-			fill(row, "." + assignment, assignments[assignment], labels[assignment], assignmentInfo);
+			const assignmentLink = link !== undefined ? link[assignment] : undefined; 
+			fill(row, "." + assignment, assignments[assignment], labels[assignment], assignmentInfo, assignmentLink);
 			item.find(".rows").append(row);
 		}
 
@@ -171,19 +182,25 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
                 formattedData[date] = {
 	                "type": "special",
                     "special-event": entry["F".ord()],
-                    "link": entry["BK".ord()],
+                    "stream": entry["BK".ord()],
                 };
                 continue;
             }
 			if (entry["G".ord()] == '') {
 				continue;
 			}
+			
+			const wolWeek = entry["BL".ord()];
+			
             formattedData[date] = {
                 "type": "midweek",
-                "link": entry["BK".ord()],
+                "stream": entry["BK".ord()],
                 "labels": {
+					"bible-chapters":			entry["K".ord()].label(),
 					"chairman":					"Canción " + entry["F".ord()] + " y oración | Palabras de introducción",
 	                "treasures-talk": 			entry["I".ord()].label(),
+					"pearls": 					"Busquemos perlas escondidas",
+					"bible-reading": 			"Lectura de la Biblia",
                     "teachers-discussion-1": 	entry["P".ord()].label(),
                     "teachers-discussion-2": 	entry["R".ord()].label(),
                     "student-assignment-1": 	entry["T".ord()].label(),
@@ -197,8 +214,25 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
                     "congregation-study": 		entry["AV".ord()].label(),
 					"conclusion":				"Palabras de conclusión | Canción " + entry["AY".ord()],
                 },
+				"links" : {
+					"bible-chapters": 			WOL_SEARCH + entry["K".ord()].label(),
+					"treasures-talk":			wolWeek,
+					"pearls": 					wolWeek,
+                    "bible-reading": 			wolWeek,
+                    "teachers-discussion-1": 	wolWeek,
+                    "teachers-discussion-2": 	wolWeek,
+                    "student-assignment-1": 	wolWeek,
+                    "student-assignment-2": 	wolWeek,
+                    "student-assignment-3": 	wolWeek,
+                    "student-assignment-4": 	wolWeek,
+                    "student-talk": 			wolWeek,
+					"living-part-1": 			wolWeek,
+					"living-part-2": 			wolWeek,
+					"congregation-study": 		wolWeek,
+				},
 				"info" : {
                     "treasures-talk": 			entry["I".ord()].info(),
+                    "bible-reading": 			entry["M".ord()],
                     "teachers-discussion-1": 	entry["P".ord()].info(),
                     "teachers-discussion-2": 	entry["R".ord()].info(),
                     "student-assignment-1": 	entry["T".ord()].info(),
@@ -211,6 +245,7 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
                     "congregation-study": 		entry["AV".ord()].info(),
 				},
                 "assignments": {
+					"bible-chapters":			"-",
                     "chairman": 				[entry["G".ord()], entry["H".ord()]],
                     "treasures-talk": 			entry["J".ord()],
                     "pearls": 					entry["L".ord()],
@@ -259,13 +294,13 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
                 formattedData[date] = {
 	                "type": "special",
                     "special-event": entry["D".ord()],
-                    "link": entry["Z".ord()],
+                    "stream": entry["Z".ord()],
                 };
                 continue;
             }
             formattedData[date] = {
                 "type": "weekend",
-                "link": entry["Z".ord()],
+                "stream": entry["Z".ord()],
                 "labels": {
                     "public-talk": entry["H".ord()],
                     "watchtower": entry["K".ord()],
