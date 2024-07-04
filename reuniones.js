@@ -96,13 +96,38 @@ function fillLink(item, link) {
     element.attr("href", link);
 }
 
+function fillSpecialEvents(formattedData, elements) {
+	const selector = "special";
+    var meeting = $(".meeting." + selector);
+
+    for (var day in formattedData) {
+        var date = new Date(day);
+        if (formattedData[day]["type"] === selector) {
+			var item = meeting.clone();
+
+	        fill(item, ".date", date.toLocaleString('es', {
+	            weekday: 'long'
+	        }).toUpperCase());
+	        fill(item, ".number", date.getDate());
+	
+	        var specialEvent = formattedData[day]["special-event"];
+			const link = formattedData[day]["link"];
+			fillLink(item, formattedData[day]["link"]);
+
+            fill(item, ".section.special-event", specialEvent);
+	        item.show();
+	        elements.set(date, item);
+		}
+	}
+}
+
 function fillInRow(formattedData, selector, elements) {
     var meeting = $(".meeting." + selector);
 
     for (var day in formattedData) {
         var date = new Date(day);
-        if (formattedData[day]["type"] !== selector)
-            continue;
+        if (formattedData[day]["type"] !== selector) continue;
+		
         var item = meeting.clone();
 
         fill(item, ".date", date.toLocaleString('es', {
@@ -112,25 +137,18 @@ function fillInRow(formattedData, selector, elements) {
 
         var row = item.find(".row").clone();
         item.find(".row").remove();
-        var specialEvent = formattedData[day]["special-event"];
         fillLink(item, formattedData[day]["link"]);
 
-        if (specialEvent !== undefined) {
-            row = row.filter(".special-event").clone();
-            fill(row, ".section.special-event", specialEvent);
-            item.find(".rows").append(row);
-        } else {
-            const labels = formattedData[day]["labels"];
-			const info = formattedData[day]["info"];
-            const assignments = formattedData[day]["assignments"];
+		const labels = formattedData[day]["labels"];
+		const info = formattedData[day]["info"];
+		const assignments = formattedData[day]["assignments"];
 
-            for (const assignment in assignments) {
-				const assignmentInfo = info !== undefined ? info[assignment] : undefined; 
-                row.find(".section.special-event").remove();
-                fill(row, "." + assignment, assignments[assignment], labels[assignment], assignmentInfo);
-                item.find(".rows").append(row);
-            }
-        }
+		for (const assignment in assignments) {
+			const assignmentInfo = info !== undefined ? info[assignment] : undefined; 
+			row.find(".section.special-event").remove();
+			fill(row, "." + assignment, assignments[assignment], labels[assignment], assignmentInfo);
+			item.find(".rows").append(row);
+		}
 
         item.show();
         elements.set(date, item);
@@ -145,78 +163,82 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
         var day = entry["D".ord()];
         var splittedDay = day.split("/");
         var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
-        if (date >= today && entry["H".ord()] != '') {
+        if (date >= today && entry["F".ord()] != '') {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
             }
-            if (!entry["H".ord()].includes("Canción")) {
+            if (isNaN(entry["F".ord()])) {
                 formattedData[date] = {
-                    "special-event": entry["H".ord()],
-                    "link": entry["BM".ord()],
+	                "type": "special",
+                    "special-event": entry["F".ord()],
+                    "link": entry["BK".ord()],
                 };
                 continue;
             }
+			if (entry["G".ord()] == '') {
+				continue;
+			}
             formattedData[date] = {
                 "type": "midweek",
-                "link": entry["BM".ord()],
+                "link": entry["BK".ord()],
                 "labels": {
-                    "treasures-talk": 			entry["K".ord()].label(),
-                    "teachers-discussion-1": 	entry["R".ord()].label(),
-                    "teachers-discussion-2": 	entry["T".ord()].label(),
-                    "student-assignment-1": 	entry["V".ord()].label(),
-                    "student-assignment-2": 	entry["AA".ord()].label(),
-                    "student-assignment-3": 	entry["AF".ord()].label(),
-                    "student-assignment-4": 	entry["AK".ord()].label(),
-                    "student-talk": 			entry["AP".ord()].label(),
-                    "living-part-1": 			entry["AT".ord()].label(),
-                    "living-part-2": 			entry["AV".ord()].label(),
-                    "congregation-study": 		entry["AX".ord()].label(),
+					"chairman":					"Canción " + entry["F".ord()] + " y oración | Palabras de introducción",
+	                "treasures-talk": 			entry["I".ord()].label(),
+                    "teachers-discussion-1": 	entry["P".ord()].label(),
+                    "teachers-discussion-2": 	entry["R".ord()].label(),
+                    "student-assignment-1": 	entry["T".ord()].label(),
+                    "student-assignment-2": 	entry["Y".ord()].label(),
+                    "student-assignment-3": 	entry["AD".ord()].label(),
+                    "student-assignment-4": 	entry["AI".ord()].label(),
+                    "student-talk": 			entry["AN".ord()].label(),
+					"song-2":					"Canción " + entry["AQ".ord()],
+                    "living-part-1": 			entry["AR".ord()].label(),
+                    "living-part-2": 			entry["AT".ord()].label(),
+                    "congregation-study": 		entry["AV".ord()].label(),
+					"conclusion":				"Palabras de conclusión | Canción " + entry["AY".ord()],
                 },
 				"info" : {
-                    "treasures-talk": 			entry["K".ord()].info(),
-					"bible-reading": 			entry["O".ord()],
-                    "teachers-discussion-1": 	entry["R".ord()].info(),
-                    "teachers-discussion-2": 	entry["T".ord()].info(),
-                    "student-assignment-1": 	entry["V".ord()].info(),
-                    "student-assignment-2": 	entry["AA".ord()].info(),
-                    "student-assignment-3": 	entry["AF".ord()].info(),
-                    "student-assignment-4": 	entry["AK".ord()].info(),
-                    "student-talk": 			entry["AP".ord()].info(),
-                    "living-part-1": 			entry["AT".ord()].info(),
-                    "living-part-2": 			entry["AV".ord()].info(),
-                    "congregation-study": 		entry["AX".ord()].info(),
+                    "treasures-talk": 			entry["I".ord()].info(),
+                    "teachers-discussion-1": 	entry["P".ord()].info(),
+                    "teachers-discussion-2": 	entry["R".ord()].info(),
+                    "student-assignment-1": 	entry["T".ord()].info(),
+                    "student-assignment-2": 	entry["Y".ord()].info(),
+                    "student-assignment-3": 	entry["AD".ord()].info(),
+                    "student-assignment-4": 	entry["AI".ord()].info(),
+                    "student-talk": 			entry["AN".ord()].info(),
+                    "living-part-1": 			entry["AR".ord()].info(),
+                    "living-part-2": 			entry["AT".ord()].info(),
+                    "congregation-study": 		entry["AV".ord()].info(),
 				},
                 "assignments": {
-					"song_1":					entry["H".ord()],
-                    "chairman_A": 				entry["I".ord()],
-                    "counselor_B": 				entry["J".ord()],
-                    "treasures-talk": 			entry["L".ord()],
-                    "pearls": 					entry["N".ord()],
-                    "bible-reading": 			[entry["P".ord()], entry["Q".ord()]],
+                    "chairman": 				[entry["G".ord()], entry["H".ord()]],
+                    "treasures-talk": 			entry["J".ord()],
+                    "pearls": 					entry["L".ord()],
+                    "bible-reading": 			[entry["N".ord()], entry["O".ord()]],
                     // ---
-                    "teachers-discussion-1": 	entry["S".ord()],
-                    "teachers-discussion-2": 	entry["U".ord()],
-                    "student-assignment-1": 	[[entry["W".ord()], entry["X".ord()]], [entry["Y".ord()], entry["Z".ord()]]],
-                    "student-assignment-2": 	[[entry["AB".ord()], entry["AC".ord()]], [entry["AD".ord()], entry["AE".ord()]]],
-                    "student-assignment-3": 	[[entry["AG".ord()], entry["AH".ord()]], [entry["AI".ord()], entry["AJ".ord()]]],
-                    "student-assignment-4": 	[[entry["AL".ord()], entry["AM".ord()]], [entry["AN".ord()], entry["AO".ord()]]],
-                    "student-talk": 			[entry["AQ".ord()], entry["AR".ord()]],
-					"song_2":					entry["AS".ord()],
-                    "living-part-1": 			entry["AU".ord()],
-                    "living-part-2": 			entry["AW".ord()],
-                    "congregation-study": 		[[entry["AY".ord()], entry["AZ".ord()]]],
-					"song_3":					entry["BA".ord()],
-                    "final-prayer": 			entry["BB".ord()],
+	                "teachers-discussion-1": 	entry["Q".ord()],
+                    "teachers-discussion-2": 	entry["S".ord()],
+                    "student-assignment-1": 	[[entry["U".ord()], entry["V".ord()]], [entry["W".ord()], entry["X".ord()]]],
+                    "student-assignment-2": 	[[entry["Z".ord()], entry["AA".ord()]], [entry["AB".ord()], entry["AC".ord()]]],
+                    "student-assignment-3": 	[[entry["AE".ord()], entry["AF".ord()]], [entry["AG".ord()], entry["AH".ord()]]],
+                    "student-assignment-4": 	[[entry["AJ".ord()], entry["AK".ord()]], [entry["AL".ord()], entry["AM".ord()]]],
+                    "student-talk": 			[entry["AO".ord()], entry["AP".ord()]],
+					"song-2":					"-",
+                    "living-part-1": 			entry["AS".ord()],
+                    "living-part-2": 			entry["AU".ord()],
+                    "congregation-study": 		[[entry["AW".ord()], entry["AX".ord()]]],
+                    "conclusion": 				"-",
+                    "final-prayer": 			entry["AZ".ord()],
                     // ---
-                    "multimedia": 				[entry["BC".ord()], entry["BD".ord()]],
-                    "hall": 					entry["BH".ord()],
-                    "attendants": 				[entry["BI".ord()], entry["BJ".ord()]],
-                    "parking": 					entry["BK".ord()],
-                    "stage": 					entry["BG".ord()],
-                    "microphones": 				[[entry["BE".ord()], entry["BF".ord()]]],
-                    "cleaning": 				"Grupos " + entry["BL".ord()],
+                    "multimedia": 				[entry["BA".ord()], entry["BB".ord()]],
+                    "hall": 					entry["BF".ord()],
+                    "attendants": 				[entry["BG".ord()], entry["BH".ord()]],
+                    "parking": 					entry["BI".ord()],
+                    "stage": 					entry["BE".ord()],
+                    "microphones": 				[[entry["BC".ord()], entry["BD".ord()]]],
+                    "cleaning": 				"Grupos " + entry["BJ".ord()],
                 }
-            };
+            }
         }
     }
 }
@@ -235,6 +257,7 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
             }
             if (isNaN(entry["D".ord()])) {
                 formattedData[date] = {
+	                "type": "special",
                     "special-event": entry["D".ord()],
                     "link": entry["Z".ord()],
                 };
@@ -277,6 +300,7 @@ function processData(meetingsRequest, weekendMeetingsRequest) {
     console.log(formattedData);
     
     var elements = new Map();
+    fillSpecialEvents(formattedData, elements);
     fillInRow(formattedData, "midweek", elements);
     fillInRow(formattedData, "weekend", elements);
     const orderedElements = sort(elements);

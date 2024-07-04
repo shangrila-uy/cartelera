@@ -119,6 +119,14 @@ body {}
     display: inline;
 }
 
+.meeting .bible-chapters {
+    font-size: 16px;
+    padding: 8px 12px;
+    margin: 4px 0px;
+    border-radius: 10px;
+    border: 1px solid #DDDDDD;
+}
+
 .meeting .song, 
 .meeting .assignee {
     font-size: 16px;
@@ -142,6 +150,7 @@ body {}
 	flex-direction: row;
 }
 
+.meeting .assignee.first,
 .meeting .song.first,
 .meeting .section.tasks h2,
 .meeting .section h2.first {
