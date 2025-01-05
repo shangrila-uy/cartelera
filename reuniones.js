@@ -324,6 +324,16 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
     }
 }
 
+function addHeader(day, header, table) {
+	var date = new Date(day);
+	var month = header.clone();
+	fill(month, ".month", date.toLocaleString('es', {
+		month: 'long'
+	}).replace("septiembre", "setiembre").toUpperCase() + " " + date.getFullYear());
+	month.show();
+	table.append(month);
+}
+
 function processData(meetingsRequest, weekendMeetingsRequest) {
     var formattedData = {};
     var phoneLink = "https://wa.me/598";
@@ -343,21 +353,17 @@ function processData(meetingsRequest, weekendMeetingsRequest) {
     // console.log(orderedElements);
     
     var lastMonth = 0;
-    var header = $(".header");
+    const header = $(".header");
+	const table = $("#table");
+    addHeader(orderedElements.keys().next().value, header, table);
 
     for (const [day,element] of orderedElements) {
         var date = new Date(day);
         if (date.getMonth() != lastMonth) {
-            var month = header.clone();
-            fill(month, ".month", date.toLocaleString('es', {
-                month: 'long'
-            }).replace("septiembre", "setiembre").toUpperCase() + " " + date.getFullYear());
-            month.show();
-            $("#table").append(month);
-            lastMonth = date.getMonth()
+            addHeader(day, header, table);
         }
 
-        $("#table").append(element);
+        table.append(element);
     }
 
     $(".lds-dual-ring").slideUp();
