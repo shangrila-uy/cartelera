@@ -355,7 +355,7 @@ function processData(meetingsRequest, weekendMeetingsRequest) {
     var lastMonth = 0;
     const header = $(".header");
 	const table = $("#table");
-    addHeader(orderedElements.keys().next().value, header, table);
+    // addHeader(orderedElements.keys().next().value, header, table);
 
     for (const [day,element] of orderedElements) {
         var date = new Date(day);
@@ -596,7 +596,7 @@ function initFilters(filterData) {
 }
 
 function meetings() {
-    var meetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio%202024?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+    var meetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/vida%20y%20ministerio?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
     var weekendMeetingsUrl = 'https://sheets.googleapis.com/v4/spreadsheets/1XBm2Ywv2CEr7yHTjfbIHT_vNvHtD0pTX0B8BXmuaGF0/values/Fin%20de%20semana?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
     var filterData = {
         popupVisible: false,
