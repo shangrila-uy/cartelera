@@ -286,7 +286,7 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
         var day = entry["B".ord()];
         var splittedDay = day.split("/");
         var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
-        if (date >= today && entry["E".ord()] != '') {
+        if (date >= today && entry["D".ord()] != '') {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
             }
