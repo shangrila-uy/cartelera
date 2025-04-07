@@ -301,7 +301,7 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
 		const congregation = entry["I".ord()] != "" ? " (" + entry["I".ord()] + ")" : "";
 		const wolWeek = entry["AA".ord()];
 
-        if (date >= today && entry["D".ord()] != '') {
+        if (date >= today && (entry["D".ord()] != '' || entry["E".ord()] != '')) {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
             }
@@ -317,7 +317,7 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
                 "type": "weekend",
                 "stream": entry["Z".ord()],
                 "labels": {
-                    "public-talk": entry["H".ord()],
+                    "talk": entry["H".ord()],
                     "watchtower": entry["K".ord()],
 					"song-1": entry["D".ord()] != "" ? "Canción " + entry["D".ord()] : "",
 					"song-2": entry["J".ord()] != "" ? "Canción " + entry["J".ord()] : "",
