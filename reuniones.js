@@ -63,6 +63,9 @@ function fill(item, selector, content, label, info, link) {
         if (Array.isArray(content[0])) {
             if (content[0].every(element=>element === '')) {
                 field.remove();
+				if (selector === '.watchtower') {
+					item.find(".section.watchtower-study").remove();
+				}
                 return;
             }
             for (var i = 0; i < content.length; i++) {
@@ -140,9 +143,14 @@ function fillInRow(formattedData, selector, elements) {
 		
         var item = meeting.clone();
 
-        fill(item, ".date", date.toLocaleString('es', {
-            weekday: 'long'
-        }).toUpperCase());
+		const weekday = date.toLocaleString('es', {
+            weekday: 'long',
+        }).toUpperCase();
+		const hour = date.getHours();
+        const minute = date.getMinutes();
+        const minuteFormatted = minute < 10 ? "0" + minute : minute;
+		
+        fill(item, ".date", weekday + " " + hour + ":" + minuteFormatted);
         fill(item, ".number", date.getDate());
 
         var row = item.find(".row").clone();
@@ -172,8 +180,10 @@ function readMidweekSheet(meetingsRequest, today, formattedData) {
     for (var i = 2; i < meetingsV2Data.values.length; i++) {
         var entry = meetingsV2Data.values[i];
         var day = entry["D".ord()];
-        var splittedDay = day.split("/");
-        var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
+        var splittedDateTime = day.split(" ");
+		var splittedTime = splittedDateTime[1].split(":");
+        var splittedDay = splittedDateTime[0].split("/");
+        var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0], splittedTime[0], splittedTime[1], 0, 0);
         if (date >= today && entry["F".ord()] != '') {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
@@ -284,9 +294,14 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
     for (var i = 2; i < weekendMeetingsData.values.length; i++) {
         var entry = weekendMeetingsData.values[i];
         var day = entry["B".ord()];
-        var splittedDay = day.split("/");
-        var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0]);
-        if (date >= today && entry["E".ord()] != '') {
+        var splittedDateTime = day.split(" ");
+		var splittedTime = splittedDateTime[1].split(":");
+        var splittedDay = splittedDateTime[0].split("/");
+        var date = new Date("20" + splittedDay[2], splittedDay[1] - 1, splittedDay[0], splittedTime[0], splittedTime[1], 0, 0);
+		const congregation = entry["I".ord()] != "" ? " (" + entry["I".ord()] + ")" : "";
+		const wolWeek = entry["AA".ord()];
+
+        if (date >= today && entry["D".ord()] != '') {
             if (formattedData[date] === undefined) {
                 formattedData[date] = [];
             }
@@ -304,11 +319,20 @@ function readWeekendSheet(weekendMeetingsRequest, today, formattedData) {
                 "labels": {
                     "public-talk": entry["H".ord()],
                     "watchtower": entry["K".ord()],
+					"song-1": entry["D".ord()] != "" ? "Canción " + entry["D".ord()] : "",
+					"song-2": entry["J".ord()] != "" ? "Canción " + entry["J".ord()] : "",
+					"song-3": entry["N".ord()] != "" ? "Canción " + entry["N".ord()] : "",
                 },
+				"links" : {
+					"watchtower": wolWeek,
+				},
                 "assignments": {
                     "chairman": entry["E".ord()],
-                    "public-talk": entry["F".ord()] != "" ? entry["F".ord()] + " (" + entry["I".ord()] + ")" : "",
+					"song-1": entry["D".ord()] != "" ? "-" : "",
+                    "talk": entry["F".ord()] != "" ? entry["F".ord()] + congregation : "",
                     "watchtower": [[entry["L".ord()], entry["M".ord()]]],
+					"song-2": entry["J".ord()] != "" ? "-" : "",
+					"song-3": entry["N".ord()] != "" ? "-" : "",
                     "final-prayer": entry["O".ord()],
                     // ---
                     "multimedia": [entry["P".ord()], entry["Q".ord()]],
@@ -357,10 +381,11 @@ function processData(meetingsRequest, weekendMeetingsRequest) {
 	const table = $("#table");
     // addHeader(orderedElements.keys().next().value, header, table);
 
-    for (const [day,element] of orderedElements) {
+    for (const [day, element] of orderedElements) {
         var date = new Date(day);
         if (date.getMonth() != lastMonth) {
             addHeader(day, header, table);
+			lastMonth = date.getMonth();
         }
 
         table.append(element);

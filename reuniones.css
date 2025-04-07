@@ -113,7 +113,8 @@ a {
 
 .meeting .row .teachers .label,
 .meeting .row .teachers .label a,
-.meeting .row .watchtower-study .label {
+.meeting .row .watchtower-study .label,
+.meeting .row .watchtower-study .label a {
     color: #9b6d17;
 }
 
