@@ -6,7 +6,10 @@ $(document).ready(function() {
 
 		items.forEach(item => {
 			const type = item[0];
-			const title = item[1]; // TODO remove (edición grande)
+			const title = item[1]
+				.replace(" (edición grande)", "")
+				.replace(" (folleto)", "")
+				.replace(" (libro)", "");
 			const symbol = item[2];
 			const stock = item[3];
 			const link = item[9];
@@ -31,6 +34,8 @@ $(document).ready(function() {
 				   && !title.includes("ed. estudio")) {
 
 					let folder = '';
+					let customType = type;
+
 					switch (type) {
 					    case "Biblia":
 					        folder = 'bibles';
@@ -44,21 +49,27 @@ $(document).ready(function() {
 					        break;
 					    case "Revista":
 					        folder = 'magazines';
+							const regex = /^g[0-9]/;
+							const match = regex.test(symbol);
+
+							if (match) {
+								customType = '¡Despertad!';
+							} else {
+								customType = 'La Atalaya';
+							}
 					        break;
 					    case "Tratado":
 					        folder = 'tracts';
 					        break;
 					}
 
-					// TODO transform type to despertad/atalaya
-					
 					// Create item
 					const itemHtml = `
 						<li class="item">
 							<a href="${link}" target="_blank">
 								<img src="images/library/${folder}/${symbol}.jpg" alt="${title}" />
 								<div class="content">
-									<span class="type">${type}</span>
+									<span class="type">${customType}</span>
 									<span class="title">${title}</span>
 									<span class="stock"><span class="bold">${stock}</span> unidades</span>
 								</div>

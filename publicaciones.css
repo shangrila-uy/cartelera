@@ -4,7 +4,10 @@ body {
 }
 
 h1 {
-    margin-left: 5px;
+    margin: 5px;
+    font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+    font-size: 28px;
+    line-height: 1.25;
 }
 
 .catalog {
@@ -14,6 +17,10 @@ h1 {
 
 .catalog h2 {
     margin-left: 5px;
+    font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
+    font-weight: 700;
+    border-top: 1px solid #a7a7a7;
+    padding-top: 1.0em;
 }
 
 .section {
