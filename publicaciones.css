@@ -64,7 +64,7 @@ h1 {
 .item .content {
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 10px 10px -5px rgba(0, 0, 0, .04);
     padding: 60px 0px 10px 0px;
-    margin-top: -60px;
+    margin: -60px 0px 0px 0px;
     height: 134px;
 }
 
@@ -103,6 +103,37 @@ h1 {
 
 @media screen and (max-width: 460px) {
     .section {
-            justify-content: center;
+        justify-content: center;
+        margin: 0px 0px 10px 0px;
+    }
+    .item {
+        width: 400px;
+        margin: 0px;
+        text-align: left;
+    }
+    .item a {
+        display: flex;
+        width: 100%;
+        flex-direction: row-reverse;
+        align-items: center;
+    }
+    .item img {
+        height: 144px;
+        max-width: 160px;
+    }
+    .item .content {
+        box-shadow: -20px 0px 25px -5px rgba(0, 0, 0, .1), -10px 10px 10px -5px rgba(0, 0, 0, .04);
+        padding: 0px 0px 10px 0px;
+        margin: 0px 0px 0px 0px;
+        width: 100%;
+    }
+    .item .title {
+        justify-content: start;
+        width: 70%;
+    }
+    .item .title,
+    .item .type,
+    .item .stock {
+        padding-left: 16px;
     }
 }
