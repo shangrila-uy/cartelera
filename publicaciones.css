@@ -15,12 +15,45 @@ h1 {
     flex-direction: column;
 }
 
-.catalog h2 {
+h2 {
     margin-left: 5px;
     font-family: NotoSans, Arial, "Arial Unicode MS", sans-serif;
     font-weight: 700;
     border-top: 1px solid #a7a7a7;
     padding-top: 1.0em;
+    display: flex;
+    align-items: center;
+}
+
+h2::before {
+    font-family: jw-icons-external;
+    margin-right: 12px;
+    font-weight: normal;
+    font-size: 30px;
+}
+
+h2.biblia::before {
+    content: "\E61F";
+}
+
+h2.libro-letra-grande::before {
+    content: "\E62B";
+}
+
+h2.libro::before {
+    content: "\E62B";
+}
+
+h2.folleto::before {
+    content: "\E62D";
+}
+
+h2.revista::before {
+    content: "\E67C";
+}
+
+h2.tratado::before {
+    content: "\E6DC";
 }
 
 .section {

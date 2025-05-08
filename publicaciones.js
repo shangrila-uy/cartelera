@@ -24,7 +24,11 @@ $(document).ready(function() {
 				// Create section for each type
 				let section = catalog.find(`.section[data-type="${type}"]`);
 				if (section.length === 0) {
-					const sectionTitle = $(`<h2>${type}</h2>`);
+					const sectionClass = type
+						.replace(/[\(\)]/g, "")
+						.replace(/ /g, "-")
+						.toLowerCase();
+					const sectionTitle = $(`<h2 class="${sectionClass}">${addSToFirstWord(type)}</h2>`);
 					section = $(`<ul class="section" data-type="${type}"></ul>`);
 					catalog.append(sectionTitle);
 					catalog.append(section);
@@ -92,3 +96,15 @@ $(document).ready(function() {
     request.send();
     
 });
+
+function addSToFirstWord(text) {
+  if (!text) {
+    return ""; // Return empty string for null or empty input
+  }
+  const words = text.split(" ");
+  if (words.length === 0) {
+      return ""; // Return empty string if no words are found
+  }
+  words[0] += "s";
+  return words.join(" ");
+}
