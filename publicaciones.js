@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 		items.forEach(item => {
 			const type = item[0];
-			const title = item[1];
+			const title = item[1]; // TODO remove (edición grande)
 			const symbol = item[2];
 			const stock = item[3];
 			const link = item[9];
@@ -49,6 +49,8 @@ $(document).ready(function() {
 					        folder = 'tracts';
 					        break;
 					}
+
+					// TODO transform type to despertad/atalaya
 					
 					// Create item
 					const itemHtml = `

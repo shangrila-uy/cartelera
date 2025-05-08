@@ -3,13 +3,22 @@ body {
     margin: 20px;
 }
 
+h1 {
+    margin-left: 5px;
+}
+
 .catalog {
     display: flex;
     flex-direction: column;
 }
 
+.catalog h2 {
+    margin-left: 5px;
+}
+
 .section {
-    margin-bottom: 20px;
+    margin: 0px 0px 20px 0px;
+    padding: 0px;
     display: flex;
     gap: 20px;
     flex-direction: row;
@@ -83,4 +92,10 @@ body {
 .item .stock .bold {
     color: #1a202c;
     font-weight: 700;
+}
+
+@media screen and (max-width: 460px) {
+    .section {
+            justify-content: center;
+    }
 }
