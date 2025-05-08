@@ -25,11 +25,17 @@ h2 {
     align-items: center;
 }
 
-h2::before {
+h2 span {display: block;width: 100%;}
+
+h2::before,
+h2::after {
     font-family: jw-icons-external;
-    margin-right: 12px;
     font-weight: normal;
     font-size: 30px;
+}
+
+h2::before {
+    margin-right: 12px;
 }
 
 h2.biblia::before {
@@ -37,7 +43,7 @@ h2.biblia::before {
 }
 
 h2.libro-letra-grande::before {
-    content: "\E62B";
+    content: "\E67F";
 }
 
 h2.libro::before {
@@ -56,9 +62,34 @@ h2.tratado::before {
     content: "\E6DC";
 }
 
+h2 {
+    cursor: pointer;
+    color: #454545;
+}
+
+h2::after {
+    content: "\E63A";
+    transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+h2.active::after {
+    transform: rotate(-180deg);
+}
+
+ul.section {
+    display: none;
+    overflow: hidden; /* Important: hide overflowing content during animation */
+}
+
+ul.section.show {
+    display: flex;
+     /* Animate to 'auto' height */
+    opacity: 1;
+}
+
 .section {
     margin: 0px 0px 20px 0px;
-    padding: 0px;
+    padding: 0px 0px 20px 12px;
     display: flex;
     gap: 20px;
     flex-direction: row;

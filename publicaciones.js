@@ -28,7 +28,10 @@ $(document).ready(function() {
 						.replace(/[\(\)]/g, "")
 						.replace(/ /g, "-")
 						.toLowerCase();
-					const sectionTitle = $(`<h2 class="${sectionClass}">${addSToFirstWord(type)}</h2>`);
+					const sectionTitle = $(`<h2 class="${sectionClass}"><span>${addSToFirstWord(type)}</span></h2>`);
+					sectionTitle.on('click', function() {
+						onSectionClicked(sectionTitle);
+					});
 					section = $(`<ul class="section" data-type="${type}"></ul>`);
 					catalog.append(sectionTitle);
 					catalog.append(section);
@@ -107,4 +110,56 @@ function addSToFirstWord(text) {
   }
   words[0] += "s";
   return words.join(" ");
+}
+
+function onSectionClicked(title) {
+	const $header = title;
+	 // Assumes the content is the next sibling UL
+	const $content = $header.next('ul');
+	const $allHeaders = $('h2');
+	const $allContents = $('ul');
+
+	// Check if it's a UL
+	if ($content.length && $content.is('ul')) { 
+		// Collapse all other sections
+		$allContents.not($content).each(function() {
+			const $thisContent = $(this);
+			if ($thisContent.hasClass('show')) {
+				hideSection($thisContent);
+			}
+		});
+		$allHeaders.not($header).removeClass('active');
+
+		// Toggle the current section
+		$header.toggleClass('active');
+
+		if ($content.hasClass('show')) {
+			hideSection($content);
+		} else {
+			showSection($content);
+		}
+	}
+}
+
+function showSection($content) {
+	$content.slideDown({
+		duration: 300,
+		start: function() {
+			$(this).css({
+				display: 'flex'
+			});
+		},
+		done: function () {
+			$content.addClass('show');
+		}
+	});
+}
+
+function hideSection($content) {
+	$content.slideUp({
+		duration: 300,
+		done: function () {
+			$content.removeClass('show');
+		}
+	});
 }
