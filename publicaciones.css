@@ -83,7 +83,7 @@ h2.active::after {
 
 ul.section {
     display: none;
-    overflow: hidden; /* Important: hide overflowing content during animation */
+    // overflow: hidden; /* Important: hide overflowing content during animation */
 }
 
 ul.section.show {
