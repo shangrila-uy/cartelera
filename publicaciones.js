@@ -5,22 +5,29 @@ $(document).ready(function() {
 		const catalog = $('.catalog');
 
 		items.forEach(item => {
-			const type = item[0];
+			let target = '_blank';
+			let type = item[0];
 			const title = item[1]
-				.replace(" (edición grande)", "")
-				.replace(" (folleto)", "")
-				.replace(" (libro)", "");
+				.replace(' (edición grande)', '')
+				.replace(' (folleto)', '')
+				.replace(' (libro)', '');
 			const symbol = item[2];
 			const stock = item[3];
-			const link = item[9];
+			let link = item[9];
+			if (type == 'Formulario') {
+				type = 'Cartel';
+				link = '#';
+				target = '';
+			}
 
 			if (type !== '' 
 				&& type !== undefined
 			    && !type.includes("braille")
 			    && !type.includes("Biblia (letra grande)")
-			    && !type.includes("Tarjeta")
-			    && !type.includes("Formulario")) {
+			    && !type.includes("Tarjeta")) {
 
+				
+				
 				// Create section for each type
 				let section = catalog.find(`.section[data-type="${type}"]`);
 				if (section.length === 0) {
@@ -38,7 +45,8 @@ $(document).ready(function() {
 				}
 	
 				if (stock > 0
-				   && !title.includes("ed. estudio")) {
+				   && !title.includes("ed. estudio")
+				   && !title.includes("Guía")) {
 
 					let folder = '';
 					let customType = type;
@@ -68,12 +76,15 @@ $(document).ready(function() {
 					    case "Tratado":
 					        folder = 'tracts';
 					        break;
+						case "Cartel":
+							folder = 'posters';
+							break;
 					}
 
 					// Create item
 					const itemHtml = `
 						<li class="item">
-							<a href="${link}" target="_blank">
+							<a href="${link}" target="${target}">
 								<img src="images/library/${folder}/${symbol}.jpg" alt="${title}" />
 								<div class="content">
 									<span class="type">${customType}</span>
@@ -101,15 +112,22 @@ $(document).ready(function() {
 });
 
 function addSToFirstWord(text) {
-  if (!text) {
-    return ""; // Return empty string for null or empty input
-  }
-  const words = text.split(" ");
-  if (words.length === 0) {
-      return ""; // Return empty string if no words are found
-  }
-  words[0] += "s";
-  return words.join(" ");
+	if (!text) {
+		return ""; // Return empty string for null or empty input
+	}
+	const words = text.split(" ");
+	if (words.length === 0) {
+		return ""; // Return empty string if no words are found
+	}
+	const firstWord = words[0];
+	const regex = /[aeiou]/;
+	const match = regex.test(firstWord[firstWord.length - 1]);
+	if (match) {
+		words[0] += "s";
+	} else {
+		words[0] += "es";
+	}
+	return words.join(" ");
 }
 
 function onSectionClicked(title) {

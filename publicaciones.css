@@ -67,6 +67,10 @@ h2.tratado::before {
     content: "\E6DC";
 }
 
+h2.cartel::before {
+    content: "\E616";
+}
+
 h2 {
     cursor: pointer;
     color: #454545;
