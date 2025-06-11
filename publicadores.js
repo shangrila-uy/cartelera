@@ -1,7 +1,7 @@
 // main.js
 
 async function loadData() {
-  const json = 'https://sheets.googleapis.com/v4/spreadsheets/1TXTFt4uPkygz9MOxeogkfWy4p4WTqDWLDUYqluEQhXg/values/230801?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
+  const json = 'https://sheets.googleapis.com/v4/spreadsheets/1TXTFt4uPkygz9MOxeogkfWy4p4WTqDWLDUYqluEQhXg/values/publicadores?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s';
   const response = await fetch(json);
   const data = await response.json();
 
