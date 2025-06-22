@@ -236,5 +236,15 @@
         </coordinates>
       </Point>
     </Placemark>
+    <Placemark>
+      <name>Familia Quinteros</name>
+      <description>Ruta Interbalnearia Km 23.800 M 265 S 19</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9861838,-34.8203717,0
+        </coordinates>
+      </Point>
+    </Placemark>
   </Document>
 </kml>
