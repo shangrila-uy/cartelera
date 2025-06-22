@@ -216,5 +216,25 @@
         </coordinates>
       </Point>
     </Placemark>
+    <Placemark>
+      <name>Familia Almeida</name>
+      <description>Calle Aníbal Sampayo (B) M 83 S 7</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9890088,-34.8304376,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Familia Almeida</name>
+      <description>Calle Aníbal Sampayo (B) M 83 S 7</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9890088,-34.8304376,0
+        </coordinates>
+      </Point>
+    </Placemark>
   </Document>
 </kml>
