@@ -344,7 +344,7 @@ function fetchTerritoriesKmz(map, infoWindow, options, mapType) {
 function createPlaceContent(placemark) {
 	var coordinates = placemark.Point.coordinates[0];
 	var content = (placemark.description != null) ? placemark.description + "<br/>" : "";
-	content += "<a target='_blank' href='https://www.google.com/maps/dir//" + coordinates.lat + "," + coordinates.lng + "'>C—mo ir</a>";
+	content += "<a target='_blank' href='https://www.google.com/maps/dir//" + coordinates.lat + "," + coordinates.lng + "'>C&oacute;mo ir</a>";
 	return content;
 }
 

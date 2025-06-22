@@ -7,7 +7,7 @@
         <color>ff000000</color>
         <scale>1</scale>
         <Icon>
-          <href>images/icon-1.png</href>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
         </Icon>
       </IconStyle>
       <LabelStyle>
@@ -19,7 +19,7 @@
         <color>ff000000</color>
         <scale>1</scale>
         <Icon>
-          <href>images/icon-1.png</href>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
         </Icon>
       </IconStyle>
       <LabelStyle>
@@ -41,7 +41,7 @@
         <color>ff000000</color>
         <scale>1</scale>
         <Icon>
-          <href>images/icon-1.png</href>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
         </Icon>
       </IconStyle>
       <LabelStyle>
@@ -56,7 +56,7 @@
         <color>ff000000</color>
         <scale>1</scale>
         <Icon>
-          <href>images/icon-1.png</href>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
         </Icon>
       </IconStyle>
       <LabelStyle>
@@ -133,15 +133,6 @@
       </Point>
     </Placemark>
     <Placemark>
-      <name>Familia Morgade</name>
-      <styleUrl>#icon-1603-000000-nodesc</styleUrl>
-      <Point>
-        <coordinates>
-          -55.9855686859959,-34.8232915608159,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
       <name>Familia Hortiguera</name>
       <description>Andrés Carlevero (Calle B) M68 S10</description>
       <styleUrl>#icon-1603-000000</styleUrl>
@@ -157,16 +148,6 @@
       <Point>
         <coordinates>
           -55.9725952148438,-34.838264465332,0
-        </coordinates>
-      </Point>
-    </Placemark>
-    <Placemark>
-      <name>Familia Puche</name>
-      <description>Atenas M62 S21B</description>
-      <styleUrl>#icon-1603-000000</styleUrl>
-      <Point>
-        <coordinates>
-          -55.9797764,-34.8488211,0
         </coordinates>
       </Point>
     </Placemark>
@@ -212,6 +193,26 @@
       <Point>
         <coordinates>
           -55.9882483,-34.8525727,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Familia Inchuste</name>
+      <description>Colón M 36 S 15</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9875941,-34.8495288,0
+        </coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Rita Cohen</name>
+      <description>Av. Gral. José Artigas 336</description>
+      <styleUrl>#icon-1603-000000</styleUrl>
+      <Point>
+        <coordinates>
+          -55.9900124,-34.8448963,0
         </coordinates>
       </Point>
     </Placemark>
