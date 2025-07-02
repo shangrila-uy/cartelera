@@ -45,13 +45,12 @@ body {
   height: 1px;
   background-color: #e0e0e0;
   margin-top: 6px;
-  margin-bottom: 16px;
 }
 
 .publisher-badge {
   position: absolute;
   top: 18px;
-  right: 24px;
+  right: 28px;
   display: inline-block;
   margin-left: 8px;
   background: #dddddd;
@@ -64,18 +63,61 @@ body {
   font-size: 0.6em;
 }
 
-.card p {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 8px;
+.publisher-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px; /* Adjust padding as needed */
 }
 
-.card p.overseer {
+.publisher-entry p {
+  margin: 0; /* Remove default paragraph margin */
+  font-size: 1rem;
+  color: #555;
+  flex-grow: 1; /* Allow name to take available space */
+  text-align: left; /* Align name to the left */
+}
+
+.publisher-entry p a {
+  color: #555;
+  text-decoration: none; /* Remove underline from links */
+}
+
+.publisher-link {
+  min-height: 44px; /* Recommended touch target size for mobile */
+  display: inline-flex; /* Allows min-height to apply */
+  align-items: center; /* Vertically center text */
+  padding: 0 8px; /* Add some horizontal padding */
+}
+
+.whatsapp-icon {
+  margin-left: 8px;
+  text-decoration: none;
+  min-width: 44px; /* Recommended touch target size for mobile */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whatsapp-icon img {
+  width: 24px; /* Set explicit size for the SVG */
+  height: 24px;
+}
+
+.publisher-divider {
+  height: 1px;
+  background-color: #e0e0e0; /* Material Design divider color */
+}
+
+.card p.overseer,
+.card p.overseer a {
   font-weight: 800;
   color: #0077ff;
 }
 
-.card p.auxiliar {
+.card p.auxiliar,
+.card p.auxiliar a {
   color: #0077ff;
 }
 
