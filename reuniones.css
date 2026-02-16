@@ -111,6 +111,14 @@ a {
     color: #2a6b77;
 }
 
+.meeting.special-talk .section.public-talk .label {
+    color: 579b09
+}
+
+.meeting.memorial .section.public-talk .label {
+    color: #7B0323;
+}
+
 .meeting .row .teachers .label,
 .meeting .row .teachers .label a,
 .meeting .row .watchtower-study .label,
@@ -240,6 +248,14 @@ a {
     background: #3c7f8b;
 }
 
+.meeting.special-talk .section.public-talk h2 {
+    background: #579b09;
+}
+
+.meeting.memorial .section.public-talk h2 {
+    background: #7B0323;
+}
+
 .meeting .section.treasures h2::before {
     content: "\e65c";
 }
@@ -279,7 +295,7 @@ a {
 
 .meeting .section.special-event h2 {
 	background: #189443;
-    border-radius: 10px;
+	border-radius: 10px;
 }
 
 .meeting .section.special-event h2::before {
