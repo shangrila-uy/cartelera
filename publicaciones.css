@@ -74,6 +74,7 @@ h2.cartel::before {
 h2 {
     cursor: pointer;
     color: #454545;
+    margin-block-start: 0;
 }
 
 h2::after {
