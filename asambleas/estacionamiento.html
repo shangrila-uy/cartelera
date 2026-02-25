@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asamblea de Circuito 21/03/26</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.07),
+          0 10px 20px rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+        color: #2c2c2c;
+        padding: 30px;
+        text-align: center;
+        border-bottom: 2px solid #e0e0e0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .header h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 60px 20px;
+        font-size: 18px;
+        color: #5a5a5a;
+      }
+
+      .error {
+        text-align: center;
+        padding: 60px 20px;
+        color: #8b3a3a;
+        font-size: 16px;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        padding: 20px;
+        background: #ffffff;
+      }
+
+      table {
+        width: auto;
+        border-collapse: collapse;
+        font-size: 14px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      /* Remove padding for cells containing pills or time labels, except first th */
+      th:has(.position-pill),
+      td:has(.position-pill),
+      th:has(.time-label) {
+        padding: 0;
+      }
+
+      /* Keep padding for first th */
+      th:first-child {
+        padding: 12px 15px;
+      }
+
+      /* Time label styling - peeking labels */
+      .time-label {
+        display: block;
+        margin: 5px 0px 0px 0px;
+        width: 100%;
+        height: 100%;
+        padding: 8px 12px;
+        font-size: 11px;
+        color: #666666;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+        letter-spacing: 0.3px;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      /* Different colors for time labels in headers vs highlighted cells */
+      th .time-label {
+        background: #DADADA;
+      }
+
+      /* Center hour cells */
+      th.highlight,
+      td.time-cell {
+        text-align: center;
+      }
+
+      th {
+        background: transparent;
+        color: #2c2c2c;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        box-shadow: none;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      th:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 20;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      tbody tr:hover {
+        background-color: #f0f0f0;
+        transition: background-color 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      }
+
+      td {
+        color: #2c2c2c;
+      }
+
+      td:first-child {
+        font-weight: 600;
+        background-color: #f5f5f5;
+        color: #2c2c2c;
+        position: sticky;
+        left: 0;
+        z-index: 5;
+        box-shadow: 3px 0 6px rgba(0, 0, 0, 0.08);
+      }
+
+      tbody tr:nth-child(even) td:first-child {
+        background-color: #fafafa;
+      }
+
+      tbody tr:hover td:first-child {
+        background-color: #eeeeee;
+      }
+
+      .title-row {
+        background: #5a5a5a;
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+      }
+
+      .title-row td {
+        font-size: 16px;
+        padding: 20px;
+        color: #ffffff;
+      }
+
+      .title-row td:first-child {
+        background-color: #5a5a5a;
+      }
+
+      .highlight {
+        background: #cdff77;
+        font-weight: 600;
+      }
+
+      th.highlight:first-child,
+      td.highlight:first-child {
+        box-shadow:
+          3px 0 6px rgba(0, 0, 0, 0.08),
+          inset 0 0 0 1px #ffe0a3;
+      }
+
+      /* Rotated text for merged highlighted cells */
+      .highlight.rotated {
+        writing-mode: vertical-rl;
+        transform: rotate(-180deg);
+        text-align: center;
+        vertical-align: middle;
+        padding: 15px 8px;
+        min-width: 40px;
+        max-width: 50px;
+        white-space: normal;
+      }
+
+      th.highlight.rotated {
+        padding: 15px 8px;
+      }
+
+      /* Manager-specific background colors */
+      .manager-ismael {
+        background-color: #e3f2fd !important;
+        color: #1565c0;
+        font-weight: 600;
+      }
+
+      .manager-federico {
+        background-color: #e8f5e9 !important;
+        color: #2e7d32;
+        font-weight: 600;
+      }
+
+      /* Ensure sticky column styling is preserved for manager cells */
+      td.manager-ismael:first-child,
+      td.manager-federico:first-child {
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+      }
+
+      tbody tr:hover td.manager-ismael,
+      tbody tr:hover td.manager-federico {
+        filter: brightness(0.97);
+      }
+
+      /* Position-specific header pills */
+      .position-pill {
+        display: block;
+        margin: 10px 0 4px 0;
+        width: 100%;
+        height: 100%;
+        padding: 12px 15px;
+        border-radius: 0;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #ffffff !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+      }
+
+      .position-pill.pista {
+        background-color: #c62828; /* Dark red */
+      }
+
+      .position-pill.verde {
+        background-color: #7b1fa2; /* Purple */
+      }
+
+      .position-pill.cruce {
+        background-color: #00838f; /* Teal */
+      }
+
+      .footer {
+        padding: 20px;
+        text-align: center;
+        background: linear-gradient(to bottom, #f8f8f8 0%, #ffffff 100%);
+        color: #666666;
+        font-size: 12px;
+        border-top: 2px solid #e0e0e0;
+        box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 22px;
+        }
+
+        th,
+        td {
+          padding: 8px 10px;
+          font-size: 12px;
+        }
+
+        .table-wrapper {
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Asamblea de Circuito</h1>
+        <h3>con el Representante de la Sucursal</h3>
+      </div>
+
+      <div id="content">
+        <div class="loading">Cargando datos...</div>
+      </div>
+    </div>
+
+    <script>
+      const API_URL =
+        "https://sheets.googleapis.com/v4/spreadsheets/12cS4HPIyHTnunsky2Oq1sSz_de305RdhMctwUtzLKN0/values/AC_21%2F03%2F26?key=AIzaSyD37ddBLRxw48pq0CLXYd2LIjUrneaKk5s";
+
+      async function fetchSheetData() {
+        try {
+          const response = await fetch(API_URL);
+
+          if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+          }
+
+          const data = await response.json();
+          displayTable(data.values);
+        } catch (error) {
+          console.error("Error al cargar los datos:", error);
+          document.getElementById("content").innerHTML = `
+                    <div class="error">
+                        <p>Error al cargar los datos de Google Sheets</p>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+        }
+      }
+
+      function displayTable(values) {
+        if (!values || values.length === 0) {
+          document.getElementById("content").innerHTML =
+            '<div class="error">No se encontraron datos</div>';
+          return;
+        }
+
+        // Track which cells have been merged (to skip rendering them)
+        const mergedCells = new Set();
+
+        // Calculate rowspans for highlighted cells
+        const rowspans = calculateRowspans(values);
+
+        // Calculate colspans for specific name cells
+        const colspans = calculateColspans(values);
+
+        let tableHTML = '<div class="table-wrapper"><table>';
+
+        values.forEach((row, rowIndex) => {
+          // First row is the title
+          if (rowIndex === 0) {
+            return;
+          }
+
+          // Second row contains time headers
+          if (rowIndex === 1) {
+            return;
+          }
+
+          // Third row is the time row (header row)
+          if (rowIndex === 2) {
+            tableHTML += "<tr>";
+            row.forEach((cell, cellIndex) => {
+              let className = "";
+              let cellContent = cell || "";
+
+              // Wrap time values in time-label spans for headers
+              if (cell && /\d{1,2}:\d{2}/.test(cell)) {
+                cellContent = `<span class="time-label">${cell}</span>`;
+              }
+              // Wrap position names in pill spans
+              else if (cell) {
+                if (cell.toLowerCase().includes("pista")) {
+                  cellContent = `<span class="position-pill pista">${cell}</span>`;
+                } else if (cell.toLowerCase().includes("verde")) {
+                  cellContent = `<span class="position-pill verde">${cell}</span>`;
+                } else if (cell.toLowerCase().includes("cruce")) {
+                  cellContent = `<span class="position-pill cruce">${cell}</span>`;
+                }
+              }
+
+              tableHTML += `<th class="${className}">${cellContent}</th>`;
+            });
+            tableHTML += "</tr>";
+            return;
+          }
+
+          // Skip empty rows
+          if (row.every((cell) => !cell || cell.trim() === "")) {
+            return;
+          }
+
+          // Regular data rows
+          tableHTML += "<tr>";
+          const maxCols = getMaxColumns(values);
+          let ismaelFoundInRow = false; // Track if we've already found "Ismael Machado" in this row
+
+          for (let i = 0; i < maxCols; i++) {
+            const cellKey = `${rowIndex}-${i}`;
+
+            // Skip if this cell was merged into a previous cell (vertically or horizontally)
+            if (mergedCells.has(cellKey)) {
+              continue;
+            }
+
+            const cell = row[i] || "";
+
+            const isSpecialCell =
+              cell.includes("APERTURA") ||
+              cell.includes("COMIENZO") ||
+              cell.includes("FIN") ||
+              cell.includes("INTERVALO") ||
+              cell.includes("PROGRAMA");
+
+            let className = isSpecialCell ? "highlight" : "";
+            let cellContent = cell;
+
+            // Check if cell contains time format (e.g., "8:00", "9:30")
+            const isTimeCell = i === 0 && /\d{1,2}:\d{2}/.test(cell);
+
+            // Wrap time values in time-label spans for highlighted cells
+            if (isSpecialCell && /\d{1,2}:\d{2}/.test(cell)) {
+              cellContent = `<span class="time-label">${cell}</span>`;
+            }
+            // Wrap position names in pill spans for data cells
+            else if (cell && !isSpecialCell && !isTimeCell) {
+              if (cell.toLowerCase().includes("pista")) {
+                cellContent = `<span class="position-pill pista">${cell}</span>`;
+              } else if (cell.toLowerCase().includes("verde")) {
+                cellContent = `<span class="position-pill verde">${cell}</span>`;
+              } else if (cell.toLowerCase().includes("cruce")) {
+                cellContent = `<span class="position-pill cruce">${cell}</span>`;
+              }
+            }
+
+            if (isTimeCell) {
+              className += (className ? " " : "") + "time-cell";
+            }
+            let rowspanAttr = "";
+            let colspanAttr = "";
+
+            // Add manager-specific classes
+            if (rowIndex == 3 && cell.includes("Ismael Machado")) {
+              // Only apply the class to the FIRST occurrence in this row
+              if (!ismaelFoundInRow) {
+                className += (className ? " " : "") + "manager-ismael";
+                ismaelFoundInRow = true;
+              }
+              // Subsequent occurrences are rendered as normal cells
+            } else if (cell.includes("Federico Bue")) {
+              className += (className ? " " : "") + "manager-federico";
+            }
+
+            // Check if this cell should have a rowspan
+            if (isSpecialCell && rowspans[cellKey]) {
+              const span = rowspans[cellKey];
+              rowspanAttr = ` rowspan="${span}"`;
+              className += " rotated";
+
+              // Mark the cells below as merged
+              for (let r = 1; r < span; r++) {
+                mergedCells.add(`${rowIndex + r}-${i}`);
+              }
+            }
+
+            // Check if this cell should have a colspan
+            if (rowIndex == 3 && colspans[cellKey]) {
+              const span = colspans[cellKey];
+              colspanAttr = ` colspan="${span}"`;
+
+              // Mark the cells to the right as merged
+              for (let c = 1; c < span; c++) {
+                mergedCells.add(`${rowIndex}-${i + c}`);
+              }
+            }
+
+            tableHTML += `<td class="${className}"${rowspanAttr}${colspanAttr}>${cellContent}</td>`;
+          }
+          tableHTML += "</tr>";
+        });
+
+        tableHTML += "</tbody></table></div>";
+        document.getElementById("content").innerHTML = tableHTML;
+      }
+
+      function calculateRowspans(values) {
+        const rowspans = {};
+        const maxCols = getMaxColumns(values);
+
+        // Start from row 3 (index 3) since rows 0-2 are title/headers
+        for (let col = 0; col < maxCols; col++) {
+          for (let row = 3; row < values.length; row++) {
+            const cell = values[row][col] || "";
+            const isSpecialCell =
+              cell.includes("APERTURA") ||
+              cell.includes("COMIENZO") ||
+              cell.includes("FIN") ||
+              cell.includes("INTERVALO") ||
+              cell.includes("PROGRAMA");
+
+            if (isSpecialCell) {
+              // Count ALL cells below (highlighted and non-highlighted) until next highlighted cell or end
+              let span = 1;
+              for (let r = row + 1; r < values.length; r++) {
+                const nextCell = values[r][col] || "";
+                const isNextSpecial =
+                  nextCell.includes("APERTURA") ||
+                  nextCell.includes("COMIENZO") ||
+                  nextCell.includes("FIN") ||
+                  nextCell.includes("INTERVALO") ||
+                  nextCell.includes("PROGRAMA");
+
+                // Stop if we hit another highlighted cell
+                if (isNextSpecial) {
+                  break;
+                }
+
+                // Include this cell (highlighted or not) in the span
+                span++;
+              }
+
+              // Set rowspan if there are cells to merge
+              if (span > 1) {
+                rowspans[`${row}-${col}`] = span;
+              }
+            }
+          }
+        }
+
+        return rowspans;
+      }
+
+      function calculateColspans(values) {
+        const colspans = {};
+        const maxCols = getMaxColumns(values);
+
+        // Start from row 3 (index 3) since rows 0-2 are title/headers
+        for (let row = 3; row < values.length; row++) {
+          let ismaelFound = false; // Track if we've already found "Ismael Machado" in this row
+
+          for (let col = 0; col < maxCols; col++) {
+            const cell = values[row][col] || "";
+
+            // Check if cell contains "Ismael Machado"
+            if (cell.includes("Ismael Machado")) {
+              // Only process the FIRST occurrence in this row
+              if (!ismaelFound) {
+                ismaelFound = true;
+
+                // Count cells to the right until we find "Federico Bue"
+                let span = 1;
+                for (let c = col + 1; c < maxCols; c++) {
+                  const nextCell = values[row][c] || "";
+                  if (nextCell.includes("Federico Bue")) {
+                    break;
+                  }
+                  span++;
+                }
+
+                if (span > 1) {
+                  colspans[`${row}-${col}`] = span;
+                }
+              }
+              // Skip subsequent occurrences of "Ismael Machado" in this row
+            }
+            // Check if cell contains "Federico Bue"
+            else if (cell.includes("Federico Bue")) {
+              // Count cells to the right until the last column
+              let span = 1;
+              for (let c = col + 1; c < maxCols; c++) {
+                span++;
+              }
+
+              if (span > 1) {
+                colspans[`${row}-${col}`] = span;
+              }
+            }
+          }
+        }
+
+        return colspans;
+      }
+
+      function getMaxColumns(values) {
+        return Math.max(...values.map((row) => row.length));
+      }
+
+      // Load data when page loads
+      fetchSheetData();
+    </script>
+  </body>
+</html>
