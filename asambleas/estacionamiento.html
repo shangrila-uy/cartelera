@@ -114,7 +114,7 @@
 
       /* Different colors for time labels in headers vs highlighted cells */
       th .time-label {
-        background: #DADADA;
+        background: #dadada;
       }
 
       /* Center hour cells */
@@ -261,6 +261,14 @@
         color: #ffffff !important;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         border-radius: 20px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .position-pill:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
       }
 
       .position-pill.pista {
@@ -307,6 +315,25 @@
       <div class="header">
         <h1>Asamblea de Circuito</h1>
         <h3>con el Representante de la Sucursal</h3>
+        <p style="margin-top: 15px">
+          <a
+            href="CO-65_S.pdf"
+            target="_blank"
+            style="
+              color: #1565c0;
+              text-decoration: none;
+              font-weight: 600;
+              font-size: 14px;
+              border: 2px solid #1565c0;
+              padding: 8px 16px;
+              border-radius: 4px;
+              display: inline-block;
+              transition: all 0.2s ease;
+            "
+          >
+            📄 Ver Instrucciones
+          </a>
+        </p>
       </div>
 
       <div id="content">
@@ -379,14 +406,14 @@
               if (cell && /\d{1,2}:\d{2}/.test(cell)) {
                 cellContent = `<span class="time-label">${cell}</span>`;
               }
-              // Wrap position names in pill spans
+              // Wrap position names in pill spans with links
               else if (cell) {
                 if (cell.toLowerCase().includes("pista")) {
-                  cellContent = `<span class="position-pill pista">${cell}</span>`;
+                  cellContent = `<a href="estacionamiento_puestos.png" target="_blank" class="position-pill pista">${cell}</a>`;
                 } else if (cell.toLowerCase().includes("verde")) {
-                  cellContent = `<span class="position-pill verde">${cell}</span>`;
+                  cellContent = `<a href="estacionamiento_puestos.png" target="_blank" class="position-pill verde">${cell}</a>`;
                 } else if (cell.toLowerCase().includes("cruce")) {
-                  cellContent = `<span class="position-pill cruce">${cell}</span>`;
+                  cellContent = `<a href="estacionamiento_puestos.png" target="_blank" class="position-pill cruce">${cell}</a>`;
                 }
               }
 
@@ -433,14 +460,14 @@
             if (isSpecialCell && /\d{1,2}:\d{2}/.test(cell)) {
               cellContent = `<span class="time-label">${cell}</span>`;
             }
-            // Wrap position names in pill spans for data cells
+            // Wrap position names in pill spans with links for data cells
             else if (cell && !isSpecialCell && !isTimeCell) {
               if (cell.toLowerCase().includes("pista")) {
-                cellContent = `<span class="position-pill pista">${cell}</span>`;
+                cellContent = `<a href="estacionamiento_puestos.png" target="_blank" class="position-pill pista">${cell}</a>`;
               } else if (cell.toLowerCase().includes("verde")) {
-                cellContent = `<span class="position-pill verde">${cell}</span>`;
+                cellContent = `<a href="estacionamiento_puestos.png" target="_blank" class="position-pill verde">${cell}</a>`;
               } else if (cell.toLowerCase().includes("cruce")) {
-                cellContent = `<span class="position-pill cruce">${cell}</span>`;
+                cellContent = `<a href="estacionamiento_puestos.png" target="_blank" class="position-pill cruce">${cell}</a>`;
               }
             }
 
