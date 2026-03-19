@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Departamentos - Asamblea de Circuito</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow:
+          0 4px 6px rgba(0, 0, 0, 0.07),
+          0 10px 20px rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+        color: #2c2c2c;
+        padding: 30px;
+        text-align: center;
+        border-bottom: 2px solid #e0e0e0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .header h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-top: 10px;
+      }
+
+      .back-link {
+        color: #1565c0;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        border: 2px solid #1565c0;
+        padding: 8px 16px;
+        border-radius: 4px;
+        display: inline-block;
+        transition: all 0.2s ease;
+      }
+
+      .back-link:hover {
+        background-color: #1565c0;
+        color: #ffffff;
+      }
+
+      .content {
+        padding: 30px;
+      }
+
+      .department {
+        margin-bottom: 40px;
+        padding: 25px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        border-left: 5px solid #1565c0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+      }
+
+      .department:nth-child(2) {
+        border-left-color: #2e7d32;
+      }
+
+      .department:nth-child(3) {
+        border-left-color: #c62828;
+      }
+
+      .department:nth-child(4) {
+        border-left-color: #7b1fa2;
+      }
+
+      .department h2 {
+        font-size: 20px;
+        color: #2c2c2c;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .person {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #ffffff;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .person:last-child {
+        margin-bottom: 0;
+      }
+
+      .person-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #2c2c2c;
+        margin-bottom: 5px;
+      }
+
+      .person-location {
+        font-size: 14px;
+        color: #666666;
+        margin-bottom: 10px;
+      }
+
+      .person-phone {
+        font-size: 15px;
+        color: #1565c0;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-block;
+        padding: 8px 12px;
+        background: #e3f2fd;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+      }
+
+      .person-phone:hover {
+        background: #1565c0;
+        color: #ffffff;
+      }
+
+      .role-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        background: #5a5a5a;
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+      }
+
+      .role-badge.auxiliar {
+        background: #7b1fa2;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 22px;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .department {
+          padding: 20px;
+        }
+
+        .department h2 {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Departamentos</h1>
+        <p>Asamblea de Circuito con el Representante de la Sucursal</p>
+        <p style="margin-top: 15px">
+          <a href="estacionamiento.html" class="back-link">
+            ← Volver a Estacionamiento
+          </a>
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="department">
+          <h2>🚗 Estacionamiento</h2>
+          <div class="person">
+            <div class="role-badge">Encargado</div>
+            <div class="person-name">Federico Bue</div>
+            <a href="tel:091075536" class="person-phone">📞 091 075 536</a>
+          </div>
+          <div class="person">
+            <div class="role-badge auxiliar">Auxiliar</div>
+            <div class="person-name">Ismael Machado</div>
+            <a href="tel:099760284" class="person-phone">📞 099 760 284</a>
+          </div>
+        </div>
+
+        <div class="department">
+          <h2>👥 Acomodadores</h2>
+          <div class="person">
+            <div class="role-badge">Encargado</div>
+            <div class="person-name">Gabriel Cuello</div>
+            <a href="tel:099205026" class="person-phone">📞 099 205 026</a>
+          </div>
+          <div class="person">
+            <div class="role-badge auxiliar">Auxiliar</div>
+            <div class="person-name">Ernesto Dos Santos</div>
+            <a href="tel:099381906" class="person-phone">📞 099 381 906</a>
+          </div>
+        </div>
+
+        <div class="department">
+          <h2>🏥 Primeros Auxilios</h2>
+          <div class="person">
+            <div class="role-badge">Encargado</div>
+            <div class="person-name">Alexis Quintana</div>
+            <a href="tel:094913355" class="person-phone">📞 094 913 355</a>
+          </div>
+          <div class="person">
+            <div class="role-badge auxiliar">Auxiliar</div>
+            <div class="person-name">Eduardo Michelena</div>
+            <a href="tel:094972079" class="person-phone">📞 094 972 079</a>
+          </div>
+        </div>
+
+        <div class="department">
+          <h2>📦 Objetos Perdidos</h2>
+          <div class="person">
+            <div class="role-badge">Encargado</div>
+            <div class="person-name">Sergio Acosta</div>
+            <a href="tel:094144290" class="person-phone">📞 094 144 290</a>
+          </div>
+          <div class="person">
+            <div class="role-badge auxiliar">Auxiliar</div>
+            <div class="person-name">Mauro Garro</div>
+            <a href="tel:095291221" class="person-phone">📞 095 291 221</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
